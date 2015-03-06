@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>taskApp</title>
+
+	<link rel="stylesheet" type="text/css" href="css/myStyle.css">
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+</head>
+
+<body onload="carregaLista()" class="panel panel-body">
+	<div id="main" class="panel panel-default">
+		<fieldset><legend>Tarefas</legend>
+
+		<form action="demo_form.asp" class="" id="tasktForm">
+
+            	<div class="form-group">
+                	<label for="txtData">Data</label>
+                	<input type="data" class="form-control" style="width:120px" name="txtData" id="txtData" required="required" >
+            	</div>
+
+            	<div class="form-group">
+                	<label for="txtTarefa">Tarefa</label>
+                	<input type="text" class="form-control" name="txtTarefa" id="txtTarefa" required="required">
+            	</div>
+
+          	<div class="form-group">
+                	<label for="txtInicio">Inicio</label>
+                	<input type="text" value="00:00:00" style="width:80px" class="form-control" name="txtInicio" id="txtInicio" required="required">
+            	</div>
+
+          	<div class="form-group">
+                	<label for="txtFim">Fim</label>
+                	<input type="text" value="00:00:00" style="width:80px" txtFim="form-control" name="txtFim" id="txtFim" required="required">
+            	</div>
+
+            	
+					<span id="hora">00</span><span id="minuto">00</span><span id="segundo">00</span><br>
+					<input type="button" class="btn btn-success" value="Volta" onclick="volta();">
+					<div id="parar"><input type="button" class="btn btn-success" value="Parar" onclick="parar();myFunction()"></div>
+					<div id="comeca" style="display:none;"><input type="button" class="btn btn-success" value="Comeca" onclick="tempo(1);">
+					</div>
+						<input type="button" class="btn btn-success" value="Limpa" onclick="limpa();"><br>					
+				
+			</form>
+
+		<br>
+	
+
+		</fieldset>
+		
+</div>	
+
+
+		<div id="resultado" onClick="javascript:" class="container">
+     <div>
+          <p>Content you want the user to see goes here.</p>
+     </div>
+</div>
+
+
+</body>
+ 
+
+
+	<script type="text/javascript" src="js/myScript.js"></script>
+
+</html>
