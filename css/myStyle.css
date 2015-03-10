@@ -43,30 +43,7 @@ fieldset{
     background:#Fededed;
 }
 
-input {
-    border: 5px solid white; 
-    font-family: Arial, Sans-Serif;
-    font-size: 13px;
-    margin-bottom: 5px;
-    display: block;
-    padding: 4px;
-    border: solid 1px #85b1de;
-    width: 150px;
-    background-image: url( 'blue_bg.png' );
-    background-repeat: repeat-x;
-    background-position: top;
-}
 
-#btn1{
-	padding:8px 20px;
-	color:#000000 !important;
-	font-family:'Helvetica Neue',sans-serif;
-	font-size:13px;
-	border-radius:10px;
-	-moz-border-radius:10px;
-	-webkit-border-radius:10px;
-	border:1px solid #095B7E
-}
 
 
 #resultado {

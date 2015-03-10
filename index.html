@@ -23,31 +23,34 @@
 
             	<div class="form-group">
                 	<label for="txtData">Data</label>
-                	<input type="data" class="form-control" style="width:120px" name="txtData" id="txtData" required="required" >
+                	<span class="form-control" style="width:120px" id="txtData"></span>
             	</div>
 
             	<div class="form-group">
                 	<label for="txtTarefa">Tarefa</label>
-                	<input type="text" class="form-control" name="txtTarefa" id="txtTarefa" required="required">
-            	</div>
+                	<select class="form-control" name="txtTarefa"  required="required">
+                      <option id="txtTarefa"></option>
+                  </select>  
+              </div>
 
           	<div class="form-group">
                 	<label for="txtInicio">Inicio</label>
-                	<input type="text" value="00:00:00" style="width:80px" class="form-control" name="txtInicio" id="txtInicio" required="required">
+                	<span style="width:80px" class="form-control" id="txtInicio"></span>
             	</div>
 
           	<div class="form-group">
                 	<label for="txtFim">Fim</label>
-                	<input type="text" value="00:00:00" style="width:80px" txtFim="form-control" name="txtFim" id="txtFim" required="required">
+                	<span style="width:80px" txtFim="form-control" id="txtFim">
             	</div>
 
-            	
+           <div id="ini"> 	
 					<span id="hora">00</span><span id="minuto">00</span><span id="segundo">00</span><br>
-					<input type="button" class="btn btn-success" value="Volta" onclick="volta();">
-					<div id="parar"><input type="button" class="btn btn-success" value="Parar" onclick="parar();myFunction()"></div>
-					<div id="comeca" style="display:none;"><input type="button" class="btn btn-success" value="Comeca" onclick="tempo(1);">
 					</div>
-						<input type="button" class="btn btn-success" value="Limpa" onclick="limpa();"><br>					
+
+          <div>
+					   <div id="parar"><input type="button" class="btn btn-success" value="Parar" onclick="parar()"></div>
+					   <div id="comeca" style="display:none;"><input type="button" class="btn btn-success" value="Comeca" onclick="tempo(1);">
+					</div>
 				
 			</form>
 
@@ -60,9 +63,15 @@
 
 
 		<div id="resultado" onClick="javascript:" class="container">
-     <div>
-          <p>Content you want the user to see goes here.</p>
-     </div>
+      <div>
+        <p>
+          <div class="form-group">
+            <label for="txtDescricao">Descrição</label>
+            <textarea class="form-control" name="txtDescricao" id="txtDescricao" required="required" rows="20" cols="80"></textarea>
+          </div>
+
+        </p>
+      </div>
 </div>
 
 

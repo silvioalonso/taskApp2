@@ -6,13 +6,47 @@ var Lista = {
 	fim: ""
 }
 
+function hora() {
+
+    data = new Date();
+
+// Guarda cada pedaço em uma variável
+var dia     = data.getDate();           // 1-31
+var dia_sem = data.getDay();            // 0-6 (zero=domingo)
+var mes     = data.getMonth();          // 0-11 (zero=janeiro)
+var ano2    = data.getYear();           // 2 dígitos
+var ano4    = data.getFullYear();       // 4 dígitos
+var hora    = data.getHours();          // 0-23
+var min     = data.getMinutes();        // 0-59
+var seg     = data.getSeconds();        // 0-59
+var mseg    = data.getMilliseconds();   // 0-999
+var tz      = data.getTimezoneOffset(); // em minutos
+
+// Formata a data e a hora (note o mês + 1)
+var str_data = dia + '/' + (mes+1) + '/' + ano4;
+var str_hora = hora + ':' + min + ':' + seg;
+
+// Mostra o resultado
+
+    document.getElementById("txtData").value = str_data;
+    document.getElementById("txtInicio").innerHTML = str_hora;
+    document.getElementById("txtFim").innerHTML = str_hora;
+
+}
+
 function atualizaArray(){
 
 	if (localStorage.getItem("lista") !== null){
 		var tarefas = localStorage.getItem("lista");
-		console.log(tarefas);
-		console.log(eval("["+tarefas+"]"));
+		
+		
 		arr = eval(tarefas);
+
+		for (var i = 0; i < arr.length; i++) {
+        arr[i].value = select.options[localStorage.getItem('txtTarefa')].selected = true;
+    }
+
+		
 	}
 
 }
@@ -33,7 +67,7 @@ function limpaCampos(){
 function myFunction() {
 
 	atualizaArray();
-
+	
 	Lista.data = document.getElementById("txtData").value;
 	Lista.tarefa = document.getElementById("txtTarefa").value;
 	Lista.inicio = document.getElementById("txtInicio").value;
@@ -56,12 +90,11 @@ function myFunction() {
 
 	limpaCampos();
 }
-
-var intervalo;
+ var intervalo;
 
 function tempo(op) {
 	if (op == 1) {
-		document.getElementById('parar').style.display = "block";
+		document.getElementById('parar').style.display = "";
 		document.getElementById('comeca').style.display = "none";
 	}
 	var s = 1;
@@ -80,14 +113,34 @@ function tempo(op) {
 function parar() {
 	window.clearInterval(intervalo);
 	document.getElementById('parar').style.display = "none";
-	document.getElementById('comeca').style.display = "block";
+	document.getElementById('comeca').style.display = "";
+	hora();
+	myFunction();
 }
 
 function volta() {
-	var valor= document.getElementById('txtFim').innerHTML += document.getElementById('hora').firstChild.data + "" + document.getElementById('minuto').firstChild.data + "" + document.getElementById('segundo').firstChild.data ";
+	document.getElementById('voltas').innerHTML += document.getElementById('hora').firstChild.data + "" + document.getElementById('minuto').firstChild.data + "" + document.getElementById('segundo').firstChild.data + "<br>";
 }
 
 function limpa() {
-	document.getElementById('txtFim').innerHTML = "";
+	document.getElementById('voltas').innerHTML = "";
 }
+
+
+
+
+
+
+function mySelectValue() {
+    // Add an event listener for the value
+    document.getElementById('mySelectValue').addEventListener('change', function() {
+      // Get the value of the name field.
+      var mySelectValue = document.getElementById('mySelectValue').value;
+
+      // Save the name in localStorage.
+      localStorage.setItem('mySelectValue', mySelectValue);
+    });
+}
+
+
 window.onload=tempo;
