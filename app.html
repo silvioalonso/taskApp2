@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <title>taskApp</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+  <!-- scripts do cronometro-->  
+  <script src="js/ObjectEventTarget.js"></script>
+  <script src="js/chronometer.js"></script>
+  <script src="js/moment.js"></script>
+  <script src="js/demo.js"></script>
+  <!-- #################### -->
+
+  <style>
+  
+  	#main {
+  		text-align: center;
+      margin-top: 70px;
+  	}
+
+    #inicio, #fim{
+      text-align: center;
+      width: 150px;
+      height: 70px;
+    }
+
+  	#inicio{
+      float:left;
+  	}
+
+    #fim{
+      float: right;
+    }
+
+    #relative{
+      font-size: 50px;
+    }
+
+    p.ini, p.fim{
+      
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand">taskApp</a>
+      </div>
+      <div id="navbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li class="active"><a>Home</a></li>
+          <li><a>Console</a></li>
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div>
+  </nav>
+  
+  <div class="container" id="main">
+    <!--<h1>taskApp</h1>-->
+
+    <form role="form">
+     <div class="form-group">
+        <label for="sel1">Escolha uma tarefa</label>
+        <select class="form-control" id="sel1"></select>
+      </div>
+    </form>
+
+    <div id="inicio">
+      <p id="headingInicio" class="ini" hidden font-style="bold">Início</p> 
+      <span id="startTime" class="ini"></span>
+    </div>
+    
+    <div id="fim">
+      <p id="headingFim" class="fim" hidden>Fim</p>
+      <span id="stopTime" class="fim"></span>
+    </div>
+
+      <p>
+        <span id="relative"></span>
+      </p>
+      
+      
+
+    <div>
+      <button id="controle" type="button" class="btn btn-block btn-success">Iniciar tarefa</button>
+    </div>
+  </div>
+
+
+  <script type="text/javascript">
+
+  var btnChange = true;
+  var arrTarefas = [];
+  var arrTempos = [];
+
+  function atualizaArray(){
+
+    if (localStorage.getItem("tarefas") !== null){
+      var tarefas = localStorage.getItem("tarefas");
+      arrTarefas = eval(tarefas);
+    }
+
+    if (localStorage.getItem("tempos") !== null && localStorage.getItem("tempos") !== ""){
+      var tempos = localStorage.getItem("tempos");
+      arrTempos = eval(tempos);
+    }
+  }
+
+  function carregaComboBox(arr){
+    for (var i = 0; i < arr.length; i++){
+      $("#sel1").append("<option>" + arr[i].nome + "</option>");
+    }
+  }
+
+  function salvaTempos(tarefa, tInicial, tFinal){
+    arrTempos.push([tarefa,tInicial,tFinal]);
+    localStorage.setItem("tempos", JSON.stringify(arrTempos));
+  }
+
+
+
+
+	$(document).ready(function(){
+
+    atualizaArray();
+
+    carregaComboBox(arrTarefas);
+
+  	$("#controle").click(function(){
+      if (btnChange == true) {
+        $(this).toggleClass("btn-success").toggleClass("btn-danger").text("Finalizar tarefa");
+        $("#sel1").prop('disabled', true);
+        $(".ini , #relative").show();
+        chronometer.start();
+        btnChange=false;
+
+      } else if(btnChange == false){
+        $(this).removeClass("btn-success btn-danger").prop("disabled",true).text("Selecione uma nova tarefa");
+        $("#sel1").prop('disabled', false);
+        $(".fim").show();
+        chronometer.stop();
+        btnChange=true;
+        salvaTempos($("#sel1 option:selected").text(), $("#startTime").text(), $("#stopTime").text());
+      }
+  	});
+
+    $("#sel1").change(function(){
+        $("#controle").addClass("btn-success").prop("disabled",false).text("Iniciar tarefa");
+        $(".ini , .fim , #relative").hide();
+    });  
+  });
+
+  </script>
+
+</body>
+</html>
