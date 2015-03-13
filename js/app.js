@@ -1,0 +1,60 @@
+  var btnChange = true;
+  var arrTarefas = [];
+  var arrTempos = [];
+
+  function atualizaArray(){
+
+    if (localStorage.getItem("tarefas") !== null){
+      var tarefas = localStorage.getItem("tarefas");
+      arrTarefas = eval(tarefas);
+    }
+
+    if (localStorage.getItem("tempos") !== null && localStorage.getItem("tempos") !== ""){
+      var tempos = localStorage.getItem("tempos");
+      arrTempos = eval(tempos);
+    }
+  }
+
+  function carregaComboBox(arr){
+    for (var i = 0; i < arr.length; i++){
+      $("#sel1").append("<option>" + arr[i].nome + "</option>");
+    }
+  }
+
+  function salvaTempos(tarefa, tInicial, tFinal){
+    arrTempos.push([tarefa,tInicial,tFinal]);
+    localStorage.setItem("tempos", JSON.stringify(arrTempos));
+  }
+
+
+
+
+	$(document).ready(function(){
+
+    atualizaArray();
+
+    carregaComboBox(arrTarefas);
+
+  	$("#controle").click(function(){
+      if (btnChange == true) {
+        $(this).toggleClass("btn-success").toggleClass("btn-danger").text("Finalizar tarefa");
+        $("#sel1").prop('disabled', true);
+        $(".ini , #relative").show();
+        chronometer.start();
+        btnChange=false;
+
+      } else if(btnChange == false){
+        $(this).removeClass("btn-success btn-danger").prop("disabled",true).text("Selecione uma nova tarefa");
+        $("#sel1").prop('disabled', false);
+        $(".fim").show();
+        chronometer.stop();
+        btnChange=true;
+        salvaTempos($("#sel1 option:selected").text(), $("#startTime").text(), $("#stopTime").text());
+      }
+  	});
+
+    $("#sel1").change(function(){
+        $("#controle").addClass("btn-success").prop("disabled",false).text("Iniciar tarefa");
+        $(".ini , .fim , #relative").hide();
+    });  
+  });

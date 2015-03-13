@@ -1,0 +1,26 @@
+  	#main {
+  		text-align: center;
+      margin-top: 70px;
+  	}
+
+    #inicio, #fim{
+      text-align: center;
+      width: 150px;
+      height: 70px;
+    }
+
+  	#inicio{
+      float:left;
+  	}
+
+    #fim{
+      float: right;
+    }
+
+    #relative{
+      font-size: 50px;
+    }
+
+    p.ini, p.fim{
+      
+    }
