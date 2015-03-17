@@ -39,7 +39,7 @@
       if (btnChange == true) {
         $(this).toggleClass("btn-success").toggleClass("btn-danger").text("Finalizar tarefa");
         $("#sel1").prop('disabled', true);
-        $(".ini , #relative").show();
+        $(".ini , #time").show();
         chronometer.start();
         btnChange=false;
         $("#reset").trigger( "click" );
@@ -58,6 +58,6 @@
 
     $("#sel1").change(function(){
         $("#controle").addClass("btn-success").prop("disabled",false).text("Iniciar tarefa");
-        $(".ini , .fim , #relative").hide();
+        $(".ini , .fim , #time").hide();
     });  
   });

@@ -1,26 +1,13 @@
-  	#main {
-  		text-align: center;
-      margin-top: 70px;
-  	}
+#main {
+	text-align: center;
+  margin-top: 70px;
+}
 
-    #inicio, #fim{
-      text-align: center;
-      width: 150px;
-      height: 70px;
-    }
+#inicio, #fim, #time{
+  padding: 20px;
+}
 
-  	#inicio{
-      float:left;
-  	}
+#time{
+  font-size: 40px;
 
-    #fim{
-      float: right;
-    }
-
-    #relative{
-      font-size: 50px;
-    }
-
-    p.ini, p.fim{
-      
-    }
+}

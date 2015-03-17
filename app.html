@@ -57,35 +57,32 @@
       </div>
     </form>
 
-    <div id="inicio">
-      <p id="headingInicio" class="ini" hidden font-style="bold">Início</p> 
+    <div id="inicio" class="col-md-6 col-xs-12">
+      <p id="headingInicio" class="ini lead" hidden font-style="bold">Início</p> 
       <span id="startTime" class="ini"></span>
     </div>
     
-    <div id="fim">
-      <p id="headingFim" class="fim" hidden>Fim</p>
+    <div id="fim" class="col-md-6 col-xs-12">
+      <p id="headingFim" class="fim lead" hidden>Fim</p>
       <span id="stopTime" class="fim"></span>
     </div>
 
-      <p>
         <!--<span id="relative"></span>-->
-        <div id="time">
-            <span id="hours">00</span> :
-            <span id="minutes">00</span> :
-            <span id="seconds">00</span> :
-            <span id="milliseconds">000</span>
-        </div>
 
-        <div id="controls" style="visibility: hidden;">
-            <button id="start_pause_resume">Start</button>
-            <button id="reset">Reset</button>
-        </div>
+    <div id="time" class="col-xs-12" hidden>
+      <span id="hours">00</span>:<span id="minutes">00</span>:<span id="seconds">00</span>:<span id="milliseconds">000</span>
+    </div>
 
-      </p>    
+    <div id="controls" style="visibility: hidden;">
+        <button id="start_pause_resume">Start</button>
+        <button id="reset">Reset</button>
+    </div>
+
+
       
 
     <div>
-      <button id="controle" type="button" class="btn btn-block btn-success">Iniciar tarefa</button>
+      <button id="controle" type="button" class="col-xs-12 btn btn-block btn-success btn-lg">Iniciar tarefa</button>
     </div>
   </div>
 
