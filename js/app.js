@@ -42,6 +42,8 @@
         $(".ini , #relative").show();
         chronometer.start();
         btnChange=false;
+        $("#reset").trigger( "click" );
+        $("#start_pause_resume").trigger("click");
 
       } else if(btnChange == false){
         $(this).removeClass("btn-success btn-danger").prop("disabled",true).text("Selecione uma nova tarefa");
@@ -50,6 +52,7 @@
         chronometer.stop();
         btnChange=true;
         salvaTempos($("#sel1 option:selected").text(), $("#startTime").text(), $("#stopTime").text());
+        $("#start_pause_resume").trigger("click");
       }
   	});
 
