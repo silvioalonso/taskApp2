@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Title of the document</title>
+
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script>dojoConfig = {parseOnLoad: true}</script>
+    <script src="../css/dojo/dojo/dojo.js"></script>
+    <link rel="stylesheet" href="../css/dojo/dijit/themes/claro/claro.css"/>
+    <script src="../js/console.js"></script>
+    <script>require(["dojo/parser",  "dijit/form/Button"]);</script>
+
+    <style>
+        
+        #container { font-size: 12px; width: 700%; font-family:Arial;border:solid 1px #E4E4E4;width:800px; margin:0 auto; }
+
+        .row { float: left; margin: 5px 0; width: 100%; }
+        .w2 { width: 5%; }
+        .w10 { width: 10%; }
+        .w15 { width: 15%; }
+        .w20 { width: 20%; }
+        .w25 { width: 25%; }
+        .w30 { width: 30%; }
+        .w35 { width: 35%; }
+        .w40 { width: 40%; }
+        .w50 { width: 50%; }
+        .w60 { width: 60%; }
+        .w70 { width: 70%; }
+        .w80 { width: 80%; }
+        .w90 { width: 90%; }
+        .w100 { width: 100%; }
+
+        .item { box-sizing: border-box; float: left; padding-right:5px; }
+      
+</style>
+
+</head>
+
+<body class="claro">
+
+   <form  action="#">
+
+        <div id="container">
+            <div class="row">
+                <div class="item w20">
+                    <label for="id">ID:</label><br>
+                    <input type="text" name="id" 
+                        data-dojo-type="dijit/form/TextBox" style="100px"
+                        data-dojo-props="trim:true, propercase:true" id="id" />       
+                </div>
+            </div>
+
+            <div class="row">    
+                <div class="item w80">
+                     <label for="Nome">Nome:</label><br>
+                    <input type="text" name="nome" value=""
+                        data-dojo-type="dijit/form/TextBox"
+                        data-dojo-props="trim:true, propercase:true" id="nome" />       
+                </div>
+
+            </div>
+            <div class="row" style="float:left">    
+                <div class="item w2">
+                    <button id="btnSave" type="button">Salvar</button>
+                </div>
+
+                <div class="item w2" >
+                    <button id="btnDelete" type="button">Deletar</button>
+                </div>
+        </div>
+
+    </form>
+
+</body>
+</html>
