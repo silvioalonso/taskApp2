@@ -11,9 +11,18 @@
     <script src="../js/console.js"></script>
     <script>require(["dojo/parser",  "dijit/form/Button"]);</script>
 
+
+
     <style>
+        @import "../css/dojo/dojox/grid/resources/claroGrid.css";
+
+        /*Grid needs an explicit height by default*/
+        #gridDiv {
+            height: 20em;
+        }
         
-        #container { font-size: 12px; width: 700%; font-family:Arial;border:solid 1px #E4E4E4;width:800px; margin:0 auto; }
+        #container { font-size: 12px; width: 7
+            00%; font-family:Arial;border:solid 1px #E4E4E4;width:800px; margin:0 auto; }
 
         .row { float: left; margin: 5px 0; width: 100%; }
         .w2 { width: 5%; }
@@ -39,38 +48,52 @@
 
 <body class="claro">
 
-   <form  action="#">
+   
 
-        <div id="container">
-            <div class="row">
-                <div class="item w20">
-                    <label for="id">ID:</label><br>
-                    <input type="text" name="id" 
-                        data-dojo-type="dijit/form/TextBox" style="100px"
-                        data-dojo-props="trim:true, propercase:true" id="id" />       
+    <div id="container">
+
+        <form  action="#">
+                <div class="row">
+                    <div class="item w20">
+                        <label for="id">ID:</label><br>
+                        <input type="text" name="id" value="" 
+                            data-dojo-type="dijit/form/TextBox" style="100px"
+                            data-dojo-props="trim:true, propercase:true" id="id" />       
+                    </div>
                 </div>
+
+                <div class="row">    
+                    <div class="item w80">
+                         <label for="Nome">Nome:</label><br>
+                        <input type="text" name="nome" value=""
+                            data-dojo-type="dijit/form/TextBox"
+                            data-dojo-props="trim:true, propercase:true" id="nome" />       
+                    </div>
+
+                </div>
+                <div class="row" style="float:left">    
+                    <div class="item w2">
+                        <button id="btnSave" type="button">Salvar</button>
+                    </div>
+
+                    <div class="item w2" >
+                        <button id="btnDelete" type="button">Deletar</button>
+                    </div>
+
+                   <div class="item w2" >
+                        <button id="btnClear" type="button">Limpar</button>
+                    </div>
+     
             </div>
 
-            <div class="row">    
-                <div class="item w80">
-                     <label for="Nome">Nome:</label><br>
-                    <input type="text" name="nome" value=""
-                        data-dojo-type="dijit/form/TextBox"
-                        data-dojo-props="trim:true, propercase:true" id="nome" />       
-                </div>
 
-            </div>
-            <div class="row" style="float:left">    
-                <div class="item w2">
-                    <button id="btnSave" type="button">Salvar</button>
-                </div>
+<div id="gridDiv"></div>
 
-                <div class="item w2" >
-                    <button id="btnDelete" type="button">Deletar</button>
-                </div>
-        </div>
+        </form>
+    </div>
 
-    </form>
+    
+
 
 </body>
 </html>
