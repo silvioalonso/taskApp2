@@ -2,93 +2,15 @@ var btnChange = true;
 var arrTarefas = [];
 var arr = [];
 var store;
-var grid;
-var gridTempo;
+var grid
 var emptyStore;
 var updateItem=false;
 var selectedItem;
 
-var Tarefas = {
-  identificador: "",
-  nome:""
-}
-
-var Lista = {
-  data: "",
+var Registro = {
   tarefa:"",
   inicio: "",
   fim: ""
-}
-
-
-
-function atualizaArray(){
-
-  if (localStorage.getItem("lista") !== null){
-    var tarefas = localStorage.getItem("lista");
-    
-    
-    arr = eval(tarefas);
-
-    for (var i = 0; i < arr.length; i++) {
-        arr[i].value = select.options[localStorage.getItem('txtTarefa')].selected = true;
-    }
-
-    
-  }
-
-}
-
-function carregaLista(){
-
-  atualizaArray();
-
-}
-
-function montaLista() {
-
-  atualizaArray();
-  
-  Lista.data = dojo.byId("data").value;
-  Lista.tarefa = dojo.byId("nome").value;
-  Lista.inicio = dojo.byId("inicio").value;
-  Lista.fim = dojo.byId("fim").value;
-
-  var resultado = "<ol>";
-
-    for (i in arr){
-      container = container + "<li>" +"Data :"+ arr[i].data + " - " +"Tarefa :"+ arr[i].tarefa + " - " +"Inicio :"+ arr[i].inicio + " - " +"Fim :"+ arr[i].fim + "</li>";
-    }
-
-    resultado = container + "</ol>";
-
-  el = dojo.byId("resultado");
-  el.innerHTML = resultado;
-  el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
-}
-  
-function salvaTarefa(id,nome){   
-
-  if (updateItem){
-          
-    updateItem=false;
-          
-      arrTarefas[selectedItem].nome=dojo.byId("nome").value;
-      arrTarefas[selectedItem].identificador=dojo.byId("identificador").value;
-
-      localStorage.setItem("Tarefas", JSON.stringify(arrTarefas));                                     
-         
-  }else{
-
-    if (localStorage.getItem("Tarefas") !== null){
-      arrTarefas=eval(localStorage.getItem("Tarefas"));
-  }
-
-    arrTarefas.push({"identificador":id,"nome":nome});
-    localStorage.setItem("Tarefas", JSON.stringify(arrTarefas));     
-
-  }
-  preencheGridTarefas();
 }
 
   function preencheGridTarefas(){
@@ -98,7 +20,7 @@ function salvaTarefa(id,nome){
 
       if (localStorage.getItem("Tarefas") !== null){
 
-        var tarefas = localStorage.getItem("Tarefas");
+        var tarefas = localStorage.getItem("Registro");
         arrTarefas = eval(tarefas);
 
           if (arrTarefas!=null){
@@ -111,7 +33,7 @@ function salvaTarefa(id,nome){
             store = new ItemFileWriteStore({data: data});            
 
             for (var i = 0; i < arrTarefas.length; i++) {              
-              var itemTarefa =  { id: i, nome: arrTarefas[i].nome,identificador:arrTarefas[i].identificador}; 
+              var itemTarefa =  { id: i, nome: arrTarefas[i].nome,inicio:arrTarefas[i].inicio,fim:arrTarefas[i].fim}; 
               store.newItem(itemTarefa);            
             }
 
@@ -121,86 +43,6 @@ function salvaTarefa(id,nome){
     }); 
   }
 
-
-
-require(["dojo/ready"], function(ready){
-  ready(function(){
-  
-    require(["dijit/form/Button", "dojo/dom", "dojo/domReady!"], function(Button, dom){
-          
-      var btnSave = new Button({  
-
-        iconClass:'dijitEditorIcon dijitEditorIconSave', 
-        showLabel: false,          
-        onClick: function(){
-                   
-          var txtId = dojo.byId("identificador").value;
-          var txtNome = dojo.byId("nome").value;
-
-          salvaTarefa(txtId,txtNome);
-          
-          preencheGridTarefas(); 
-          limpaCampos();                 
-        }
-      }, "btnSave").startup();
-
-      var btnDelete = new Button({  
-
-      iconClass:'dijitEditorIcon dijitEditorIconDelete', 
-      showLabel: false,          
-        onClick: function(){
-
-          updateItem=false;
-          var items = grid.selection.getSelected();
-                                
-          if(items.length){                  
-                   
-            dojo.forEach(items, function(selectedItem){
-            
-            if(selectedItem !== null){
-            
-              store.deleteItem(selectedItem);
-
-              arrTarefas.splice(selectedItem, 1);
-              localStorage.setItem("Tarefas", JSON.stringify(arrTarefas));                                   
-
-            } 
-          });
-        }
-        limpaCampos();            
-      }
-    }, "btnDelete").startup();
-
-    var btnClear = new Button({  
-
-      iconClass:'dijitEditorIcon dijitEditorIconClear', 
-      showLabel: false,          
-        onClick: function(){
-
-          updateItem=false;
-            limpaCampos();                               
-        }
-      }, "btnClear").startup();
-
-    });
-
-  });
-});
-
-function limpaCampos(){
-    var inputs = document.getElementsByTagName('input');
-
-    for (var i = 0; i < inputs.length; i++) {
-      inputs[i].value = '';
-    }
-}
-
-function cleanLocalStorage() {
-  
-  for(key in localStorage) {
-    delete localStorage[key];
-    }
-}
 
 require(["dojo/ready"], function(ready){
   ready(function(){   
@@ -220,8 +62,10 @@ require(["dojo/ready"], function(ready){
 
     /*set up layout*/
     var layout = [[
-      {'name': 'Identificador', 'field': 'identificador', 'width': '50%'},
-      {'name': 'Nome', 'field': 'nome', 'width': '50%'}
+   
+      {'name': 'Nome', 'field': 'nome', 'width': '50%'},
+      {'name': 'Inicio', 'field': 'inicio', 'width': '50%'},
+      {'name': 'Fim', 'field': 'fim', 'width': '50%'}
     ]];
 
     /*create a new grid*/
@@ -243,8 +87,10 @@ require(["dojo/ready"], function(ready){
         var idx = evt.rowIndex;
         rowData = grid.getItem(idx);
         
-        dojo.byId("identificador").innerText = rowData.identificador[0];
+      
         dojo.byId("nome").innerText = rowData.nome[0];
+        dojo.byId("inicio").innerText = rowData.inicio[0];
+        dojo.byId("fim").innerText = rowData.fim[0];
 
         updateItem=true;
         selectedItem=idx;
