@@ -8,7 +8,7 @@
     <script>dojoConfig = {parseOnLoad: true}</script>
     <script src="../css/dojo/dojo/dojo.js"></script>
     <link rel="stylesheet" href="../css/dojo/dijit/themes/claro/claro.css"/>
-    <script src="../js/console.js"></script>
+    <script src="../js/registro.js"></script>
     <script>require(["dojo/parser",  "dijit/form/Button"]);</script>
 
     <style>
@@ -50,55 +50,33 @@
 
     <div id="container">
 
-        <div class="row">
-            <div class="item w70">
-                <span></span>
-            </div>
-        </div>
-        
 
         <form  action="#" style="margin:4px">
             <fieldset style="border solid 1px #EDEDD;border-radius: 5px; padding: 5px; min-height:150px;">
-                <legend>Cadastro de Tarefas</legend>
+                <legend>Tarefas</legend>
 
                 <div class="row">
                     <div class="item w20">
                         <label for="identificador">Identificador:</label><br>
-                        <input type="text" name="id" value="" 
-                            data-dojo-type="dijit/form/TextBox" style="100px"
-                            data-dojo-props="trim:true, propercase:true" id="identificador" />       
+                        <div id="identificador" />       
                     </div>
                 </div>
 
                 <div class="row">    
                     <div class="item w80">
                          <label for="Nome">Nome:</label><br>
-                        <input type="text" name="nome" value=""
-                            data-dojo-type="dijit/form/TextBox"
-                            data-dojo-props="trim:true, propercase:true" id="nome" />       
+                        <div id="nome" />       
                     </div>
 
                 </div>
 
             </fieldset>
 
-                <div class="row" style="float:left">    
-                    <div class="item w2">
-                        <button id="btnSave" type="button">Salvar</button>
+                <div class="row">    
+                    <div class="item w90">
+                         <div id="gridDivTempos"></div>
                     </div>
-
-                    <div class="item w2" >
-                        <button id="btnDelete" type="button">Deletar</button>
-                    </div>
-
-                   <div class="item w2" >
-                        <button id="btnClear" type="button">Limpar</button>
-                    </div>
-     
-            </div>
-
-
-            <div id="gridDiv"></div>
+                </div>
 
         </form>
     </div>

@@ -242,8 +242,9 @@ require(["dojo/ready"], function(ready){
       grid.on("RowClick", function(evt){
         var idx = evt.rowIndex;
         rowData = grid.getItem(idx);
-        dojo.byId("nome").value=rowData.nome[0];
-        dojo.byId("identificador").value=rowData.identificador[0];
+        
+        dojo.byId("identificador").innerText = rowData.identificador[0];
+        dojo.byId("nome").innerText = rowData.nome[0];
 
         updateItem=true;
         selectedItem=idx;
