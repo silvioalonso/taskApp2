@@ -10,6 +10,10 @@
     <link rel="stylesheet" href="../css/dojo/dijit/themes/claro/claro.css"/>
     <script src="../js/registro.js"></script>
     <script>require(["dojo/parser",  "dijit/form/Button"]);</script>
+    <script>
+        require(["dojo/parser", "dijit/MenuBar", "dijit/MenuBarItem", "dijit/PopupMenuBarItem",
+            "dijit/DropDownMenu", "dijit/MenuItem"]);
+    </script>
 
     <style>
         @import "../css/dojo/dojox/grid/resources/claroGrid.css";
@@ -20,7 +24,7 @@
             width:550px;
         }
         
-        #container { font-size: 12px; width: 560px; font-family:Arial;border:solid 1px #CCCCCC; margin:0 auto;paddin:20px; }
+        #container { font-family:Arial;font-size: 12px; width: 560px; font-family:Arial;border:solid 1px #CCCCCC; margin:0 auto;paddin:20px; }
 
         .row { float: left; margin: 5px 0; width: 100%; }
         .w2 { width: 7%; }
@@ -45,38 +49,52 @@
 </head>
 
 <body class="claro">
-
    
 
     <div id="container">
+            <div class="row">
+                <div class="item w100" style="float:left;padding-left:5px">
 
-
-        <form  action="#" style="margin:4px">
-            <fieldset style="border solid 1px #EDEDD;border-radius: 5px; padding: 5px; min-height:150px;">
-                <legend>Tarefas</legend>
-
-
-                <div class="row">    
-                    <div class="item w80">
-                         <label for="Nome">Nome:</label><br>
-                        <div id="nome" />       
-                    </div>
-
-                <div class="row">    
-                    <div class="item w80">
-                         <label for="Inicio">Inicio:</label><br>
-                        <div id="inicio" />       
-                    </div>
-
-
-                <div class="row">    
-                    <div class="item w80">
-                         <label for="Fim">Fim:</label><br>
-                        <div id="fim" />       
+                    <div data-dojo-type="dijit/MenuBar" id="navMenu">
+                        <div data-dojo-type="dijit/PopupMenuBarItem">
+                            <span>Menu</span>
+                                <div data-dojo-type="dijit/DropDownMenu" id="fileMenu">
+                                    <div data-dojo-type="dijit/MenuItem" data-dojo-props="onClick:function(){window.location.href='index.html'}">Console</div>
+                                    <div data-dojo-type="dijit/MenuItem" data-dojo-props="onClick:function(){window.location.href='../app.html'}">APP</div>
+                                </div>
+                        </div>
+      
+                        <div data-dojo-type="dijit/MenuBarItem">
+                            Sair
+                        </div>
                     </div>
 
                 </div>
+            </div>
 
+        <form  action="#" style="margin:4px">
+            <fieldset style="border solid 1px #EDEDD;border-radius: 5px; padding: 5px; min-height:80px;">
+                <legend>Tarefa cadastrada</legend>
+
+                <div class="row">    
+                    <div class="item w100" >
+                         <label for="Nome">Nome:</label><br>
+                        <div id="nome" />       
+                    </div>                
+                </div>
+
+                <div class="row">    
+                    <div class="item w50" style="float:left">
+                         <label for="inicio">Inicio:</label><br>
+                        <div id="inicio" />       
+                    </div> 
+
+                    <div class="item w50" style="float:left">
+                         <label for="fim">Fim:</label><br>
+                        <div id="fim" />       
+                    </div>                
+                
+                </div>
             </fieldset>
 
                 <div class="row">    
@@ -84,10 +102,9 @@
                          <div id="gridDiv"></div>
                     </div>
                 </div>
-
         </form>
     </div>
 
-    
+   
 </body>
 </html>

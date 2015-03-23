@@ -63,9 +63,10 @@ require(["dojo/ready"], function(ready){
     /*set up layout*/
     var layout = [[
    
-      {'name': 'Nome', 'field': 'nome', 'width': '50%'},
+      {'name': 'Tarefa', 'field': 'nome', 'width': '50%'},
       {'name': 'Inicio', 'field': 'inicio', 'width': '50%'},
-      {'name': 'Fim', 'field': 'fim', 'width': '50%'}
+      {'name': 'Fim', 'field': 'fim', 'width': '50%'},
+      {'name': 'Tempo gasto', 'field': 'tempogasto', 'width': '50%'}
     ]];
 
     /*create a new grid*/
@@ -91,6 +92,7 @@ require(["dojo/ready"], function(ready){
         dojo.byId("nome").innerText = rowData.nome[0];
         dojo.byId("inicio").innerText = rowData.inicio[0];
         dojo.byId("fim").innerText = rowData.fim[0];
+        dojo.byId("tempogasto").innerText = rowData.tempogasto[0];
 
         updateItem=true;
         selectedItem=idx;
@@ -105,4 +107,4 @@ require(["dojo/ready"], function(ready){
 
 
 
-
+//Menu

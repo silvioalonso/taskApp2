@@ -11,6 +11,12 @@
     <script src="../js/console.js"></script>
     <script>require(["dojo/parser",  "dijit/form/Button"]);</script>
 
+        <script>
+        require(["dojo/parser", "dijit/MenuBar", "dijit/MenuBarItem", "dijit/PopupMenuBarItem",
+            "dijit/DropDownMenu", "dijit/MenuItem"]);
+    </script>
+
+
     <style>
         @import "../css/dojo/dojox/grid/resources/claroGrid.css";
 
@@ -50,12 +56,26 @@
 
     <div id="container">
 
-        <div class="row">
-            <div class="item w70">
-                <span></span>
+           <div class="row">
+                <div class="item w100" style="float:left;padding-left:5px">
+
+                    <div data-dojo-type="dijit/MenuBar" id="navMenu">
+                        <div data-dojo-type="dijit/PopupMenuBarItem">
+                            <span>Menu</span>
+                                <div data-dojo-type="dijit/DropDownMenu" id="fileMenu">
+                                    <div data-dojo-type="dijit/MenuItem" data-dojo-props="onClick:function(){window.location.href='lista.html'}">Listar</div>
+                                    <div data-dojo-type="dijit/MenuItem" data-dojo-props="onClick:function(){window.location.href='../app.html'}">APP</div>
+                                </div>
+                        </div>
+    
+  
+                <div data-dojo-type="dijit/MenuBarItem">
+                    Sair
+                </div>
             </div>
-        </div>
-        
+
+                </div>
+            </div>
 
         <form  action="#" style="margin:4px">
             <fieldset style="border solid 1px #EDEDD;border-radius: 5px; padding: 5px; min-height:150px;">
@@ -71,7 +91,7 @@
                 </div>
 
                 <div class="row">    
-                    <div class="item w80">
+                    <div class="item w100">
                          <label for="Nome">Nome:</label><br>
                         <input type="text" name="nome" value=""
                             data-dojo-type="dijit/form/TextBox"
