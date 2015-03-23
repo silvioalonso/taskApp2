@@ -7,7 +7,7 @@ $(function(){
   var $stop = $('#stop');
   var $step = $('#step');
   var $steps = $('#steps');
-  var timeFormat = 'MMMM Do YYYY, h:mm:ss a';
+  var timeFormat = 'DD/MM/YYYY, H:mm:ss';
 
   // Create my chronometer instance
   var chronometer = new Chronometer();
