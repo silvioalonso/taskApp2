@@ -4,8 +4,8 @@
 
   function atualizaArray(){
 
-    if (localStorage.getItem("tarefas") !== null){
-      var tarefas = localStorage.getItem("tarefas");
+    if (localStorage.getItem("Tarefas") !== null){
+      var tarefas = localStorage.getItem("Tarefas");
       arrTarefas = eval(tarefas);
     }
 
@@ -22,7 +22,9 @@
   }
 
   function salvaTempos(tarefa, tInicial, tFinal){
-    arrTempos.push([tarefa,tInicial,tFinal]);
+    var obj = {nome: tarefa, inicio: tInicial, fim: tFinal};
+    arrTempos.push(obj);
+//    localStorage.setItem("tempos", JSON.stringify(arrTempos));
     localStorage.setItem("tempos", JSON.stringify(arrTempos));
   }
 
