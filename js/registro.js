@@ -7,12 +7,50 @@ var emptyStore;
 var updateItem=false;
 var selectedItem;
 
-var Registro = {
-  tarefa:"",
+
+//Tratar objeto data hora
+
+var strIni=eval(localStorage.getItem("tempos"))[0].inicio.split(",")[0];
+var strHrInicio=eval(localStorage.getItem("tempos"))[0].inicio.split(",")[1];
+
+
+var strFim=eval(localStorage.getItem("tempos"))[0].fim.split(",")[0];
+var strHrFim=eval(localStorage.getItem("tempos"))[0].fim.split(",")[1];
+
+var diaI=strIni.split("/")[0];
+var mesI=strIni.split("/")[1];
+var anoI=strIni.split("/")[2];
+
+var horaI=strHrInicio.split(":")[0];
+var minutosI=strHrInicio.split(":")[1];
+var segundosI=strHrInicio.split(":")[2];
+
+var dataHoraIni = new Date(anoI, mesI, diaI, horaI, minutosI, segundosI,null); 
+
+var diaF=strFim.split("/")[0];
+var mesF=strFim.split("/")[1];
+var anoF=strFim.split("/")[2];
+
+var horaF=strHrFim.split(":")[0];
+var minutosF=strHrFim.split(":")[1];
+var segundosF=strHrFim.split(":")[2];
+
+var dataHoraFim = new Date(anoF, mesF, diaF, horaF, minutosF, segundosF,null); 
+
+
+var dif=new Date(dataHoraFim-dataHoraIni);
+
+console.log(dif);
+
+
+var tempos = {
+  nome:"",
   inicio: "",
-  fim: ""
+  fim: "",
+   tempogasto: dif
 }
 
+tempogasto=dif;
   function preencheGridTarefas(){
 
     require(['dojo/_base/lang', 'dojo/data/ItemFileWriteStore', 'dojo/dom', 'dojo/domReady!'],
@@ -20,20 +58,21 @@ var Registro = {
 
       if (localStorage.getItem("Tarefas") !== null){
 
-        var tarefas = localStorage.getItem("Registro");
+        var tarefas = localStorage.getItem("tempos");
         arrTarefas = eval(tarefas);
 
           if (arrTarefas!=null){
 
             var data = {
               id: "id",
+              
               items: []
             };
                 
             store = new ItemFileWriteStore({data: data});            
 
             for (var i = 0; i < arrTarefas.length; i++) {              
-              var itemTarefa =  { id: i, nome: arrTarefas[i].nome,inicio:arrTarefas[i].inicio,fim:arrTarefas[i].fim}; 
+              var itemTarefa =  { id: i, nome: arrTarefas[i].nome,inicio:arrTarefas[i].inicio,fim:arrTarefas[i].fim,tempogasto:tempogasto}; 
               store.newItem(itemTarefa);            
             }
 
@@ -107,4 +146,3 @@ require(["dojo/ready"], function(ready){
 
 
 
-//Menu
