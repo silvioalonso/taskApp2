@@ -59,17 +59,18 @@ for (var u=0;u<strHrFim.length;u++){
 
 var dataHoraFim = new Date(anoF, mesF, diaF, horaF, minutosF, segundosF,null);
 
+var timeDiff=new Date();
 
+timeDiff = dataHoraFim - dataHoraIni;
+timeDiff /= 1000;
 
-
-var dif = new Date(dataHoraFim-dataHoraIni);
-moment(dif).format(timeFormat).split(",")[1] ;
+moment(timeDiff).format(timeFormat) ;
 
   var tempos = {
     nome:"",
     inicio: "",
     fim: "",
-    tempogasto: dif
+    tempogasto: timeDiff
   }
 
   
@@ -95,7 +96,7 @@ moment(dif).format(timeFormat).split(",")[1] ;
             store = new ItemFileWriteStore({data: data});           
                   
             for (var i = 0; i < arrTarefas.length; i++) {    
-              var itemTarefa =  { id: i, nome: arrTarefas[i].nome,inicio:arrTarefas[i].inicio,fim:arrTarefas[i].fim,tempogasto:moment(tempogasto).format(timeFormat).split(",")[1]}; 
+              var itemTarefa =  { id: i, nome: arrTarefas[i].nome,inicio:arrTarefas[i].inicio,fim:arrTarefas[i].fim,tempogasto:moment(tempos.tempogasto).format(timeFormat).split(",")[1]}; 
                 store.newItem(itemTarefa);                     
             }
            
