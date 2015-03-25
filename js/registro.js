@@ -6,51 +6,74 @@ var grid
 var emptyStore;
 var updateItem=false;
 var selectedItem;
-
+var timeFormat = 'DD/MM/YYYY, H:mm:ss';
 
 //Tratar objeto data hora
-
 var strIni=eval(localStorage.getItem("tempos"))[0].inicio.split(",")[0];
 var strHrInicio=eval(localStorage.getItem("tempos"))[0].inicio.split(",")[1];
-
 
 var strFim=eval(localStorage.getItem("tempos"))[0].fim.split(",")[0];
 var strHrFim=eval(localStorage.getItem("tempos"))[0].fim.split(",")[1];
 
-var diaI=strIni.split("/")[0];
-var mesI=strIni.split("/")[1];
-var anoI=strIni.split("/")[2];
+var diaI;
+var mesI;
+var anoI;
 
-var horaI=strHrInicio.split(":")[0];
-var minutosI=strHrInicio.split(":")[1];
-var segundosI=strHrInicio.split(":")[2];
+for (var d=0;d<strIni.length;d++){
+  diaI=strIni[d].split("/");
+  mesI=strIni[d].split("/");
+  anoI=strIni[d].split("/");
+}
+
+var horaI;
+var minutosI;
+var segundosI;
+
+for (var h=0;h<strHrInicio.length;h++){
+  horaI=strHrInicio[h].split("/");
+  minutosI=strHrInicio[h].split("/");
+  segundosI=strHrInicio[h].split("/");
+}
 
 var dataHoraIni = new Date(anoI, mesI, diaI, horaI, minutosI, segundosI,null); 
 
-var diaF=strFim.split("/")[0];
-var mesF=strFim.split("/")[1];
-var anoF=strFim.split("/")[2];
+var diaF;
+var mesF;
+var anoF;
 
-var horaF=strHrFim.split(":")[0];
-var minutosF=strHrFim.split(":")[1];
-var segundosF=strHrFim.split(":")[2];
-
-var dataHoraFim = new Date(anoF, mesF, diaF, horaF, minutosF, segundosF,null); 
-
-
-var dif=new Date(dataHoraFim-dataHoraIni);
-
-console.log(dif);
-
-
-var tempos = {
-  nome:"",
-  inicio: "",
-  fim: "",
-   tempogasto: dif
+for (var f=0;f<strFim.length;f++){
+  diaF=strFim[f].split("/");
+  mesF=strFim[f].split("/");
+  anoF=strFim[f].split("/");
 }
 
-tempogasto=dif;
+var horaF;
+var minutosF;
+var segundosF;
+
+for (var u=0;u<strHrFim.length;u++){
+  horaF=strHrFim[u].split("/");
+  minutosF=strHrFim[u].split("/");
+  segundosF=strHrFim[u].split("/");
+}
+
+var dataHoraFim = new Date(anoF, mesF, diaF, horaF, minutosF, segundosF,null);
+
+
+
+
+var dif = new Date(dataHoraFim-dataHoraIni);
+moment(dif).format(timeFormat).split(",")[1] ;
+
+  var tempos = {
+    nome:"",
+    inicio: "",
+    fim: "",
+    tempogasto: dif
+  }
+
+  
+
   function preencheGridTarefas(){
 
     require(['dojo/_base/lang', 'dojo/data/ItemFileWriteStore', 'dojo/dom', 'dojo/domReady!'],
@@ -69,13 +92,13 @@ tempogasto=dif;
               items: []
             };
                 
-            store = new ItemFileWriteStore({data: data});            
-
-            for (var i = 0; i < arrTarefas.length; i++) {              
-              var itemTarefa =  { id: i, nome: arrTarefas[i].nome,inicio:arrTarefas[i].inicio,fim:arrTarefas[i].fim,tempogasto:tempogasto}; 
-              store.newItem(itemTarefa);            
+            store = new ItemFileWriteStore({data: data});           
+                  
+            for (var i = 0; i < arrTarefas.length; i++) {    
+              var itemTarefa =  { id: i, nome: arrTarefas[i].nome,inicio:arrTarefas[i].inicio,fim:arrTarefas[i].fim,tempogasto:moment(tempogasto).format(timeFormat).split(",")[1]}; 
+                store.newItem(itemTarefa);                     
             }
-
+           
             grid.setStore(store);
           }       
       }
