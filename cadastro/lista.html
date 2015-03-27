@@ -73,6 +73,8 @@
                         </div>
                     </div>
 
+
+
                 </div>
             </div>
 
@@ -90,7 +92,12 @@
                 <div class="row">    
                     <div class="item w50" style="float:left">
                          <label for="inicio"><strong>Inicio:</strong></label><br>
-                        <div id="inicio" />       
+                        
+                    <div>
+                       <div id="editarIni"><input type="text" id="inicio" name="inicio" ></div>
+                       <div id="inicio" style="display:none;"/>
+                    </div>
+               
                     </div> 
                 </div>
 
@@ -98,7 +105,8 @@
 
                     <div class="item w50" style="float:left">
                          <label for="fim"><strong>Fim:</strong></label><br>
-                        <div id="fim" />       
+                         <div id="editarFim"><input type="text" id="fim" name="fim" ></div>
+                        <div id="fim" style="display:none;"/>       
                     </div>                
                 
                 </div>
@@ -107,7 +115,8 @@
 
                     <div class="item w50" style="float:left">
                          <label for="tempogasto"><strong>Tempo Gasto:</strong></label><br>
-                        <div id="tempogasto" />       
+                         <div id="editarTempoGasto"><input type="text" id="tempogasto" name="tempogasto"></div>
+                        <div id="tempogasto" style="display:none;"/>       
                     </div>                
                 
                 </div>
@@ -115,7 +124,23 @@
 
             </fieldset>
 
-                <div class="row">    
+
+                <div class="row"> 
+
+                   <div class="item w2" >
+                        <button id="btnSave" type="button">Editar</button>
+                    </div>
+                <div>
+
+                   <div class="item w2" >
+                        <button id="btnDelete" type="button">Deletar</button>
+                    </div>
+
+
+
+                <div>
+                
+                <div class="row"> 
                     <div class="item w90">
                          <div id="gridDiv"></div>
                     </div>
