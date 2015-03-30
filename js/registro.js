@@ -8,6 +8,12 @@ var selectedItem;
 var timeFormat = 'DD/MM/YYYY, H:mm:ss';
 var timeDiff=new Date();
 
+
+
+function formataDataHora(){
+
+      //Tratar objeto data hora
+
   var strIni=eval(localStorage.getItem("tempos"))[0].inicio.split(",")[0];
     var strHrInicio=eval(localStorage.getItem("tempos"))[0].inicio.split(",")[1];
 
@@ -16,6 +22,59 @@ var timeDiff=new Date();
  
 
 
+ 
+    var diaI;
+    var mesI;
+    var anoI;
+
+    for (var d=0;d<strIni.length;d++){
+      diaI=strIni[d].split("/");
+      mesI=strIni[d].split("/");
+      anoI=strIni[d].split("/");
+    }
+
+    var horaI;
+    var minutosI;
+    var segundosI;
+
+    for (var h=0;h<strHrInicio.length;h++){
+      horaI=strHrInicio[h].split("/");
+      minutosI=strHrInicio[h].split("/");
+      segundosI=strHrInicio[h].split("/");
+    }
+
+    var dataHoraIni = new Date(anoI, mesI, diaI, horaI, minutosI, segundosI,null); 
+
+    var diaF;
+    var mesF;
+    var anoF;
+
+    for (var f=0;f<strFim.length;f++){
+      diaF=strFim[f].split("/");
+      mesF=strFim[f].split("/");
+      anoF=strFim[f].split("/");
+    }
+
+    var horaF;
+    var minutosF;
+    var segundosF;
+
+    for (var u=0;u<strHrFim.length;u++){
+      horaF=strHrFim[u].split("/");
+      minutosF=strHrFim[u].split("/");
+      segundosF=strHrFim[u].split("/");
+    }
+
+    var dataHoraFim = new Date(anoF, mesF, diaF, horaF, minutosF, segundosF,null);
+  
+    timeDiff = (dataHoraFim) - (dataHoraIni);
+    moment(timeDiff).format(timeFormat) ;
+
+}
+
+
+formataDataHora();
+
   var tempos = {
     nome:"",
     inicio: "",
@@ -23,7 +82,6 @@ var timeDiff=new Date();
     tempogasto: timeDiff
   }
 
-formataDataHora();
 
 function salvaRegistros(nome,inicio,fim,tempogasto){   
 
@@ -45,7 +103,7 @@ function salvaRegistros(nome,inicio,fim,tempogasto){
       arrRegistros=eval(localStorage.getItem("tempos"));
   }
 
-    arrRegistros.push({"nome":nome,"inicio":inicio,"fim":fim,"tempogasto":tempogasto});
+    arrRegistros.push({"nome":nome,"inicio":inicio,"fim":fim,"tempogasto":tempos.tempogasto});
     localStorage.setItem("tempos", JSON.stringify(arrRegistros));     
 
   }
@@ -67,7 +125,7 @@ function salvaRegistros(nome,inicio,fim,tempogasto){
 
             var data = {
               id: "id",
-              
+
               items: []
             };
                 
@@ -95,6 +153,7 @@ require(["dojo/ready"], function(ready){
     /*set up data store*/
     var data = {
       id: "id",
+      tempogasto:"tempogasto",
       items: []
     };
         
@@ -230,58 +289,3 @@ function limpaCampos(){
 
 
 
-
-function formataDataHora(){
-
-      //Tratar objeto data hora
-
-
- 
-    var diaI;
-    var mesI;
-    var anoI;
-
-    for (var d=0;d<strIni.length;d++){
-      diaI=strIni[d].split("/");
-      mesI=strIni[d].split("/");
-      anoI=strIni[d].split("/");
-    }
-
-    var horaI;
-    var minutosI;
-    var segundosI;
-
-    for (var h=0;h<strHrInicio.length;h++){
-      horaI=strHrInicio[h].split("/");
-      minutosI=strHrInicio[h].split("/");
-      segundosI=strHrInicio[h].split("/");
-    }
-
-    var dataHoraIni = new Date(anoI, mesI, diaI, horaI, minutosI, segundosI,null); 
-
-    var diaF;
-    var mesF;
-    var anoF;
-
-    for (var f=0;f<strFim.length;f++){
-      diaF=strFim[f].split("/");
-      mesF=strFim[f].split("/");
-      anoF=strFim[f].split("/");
-    }
-
-    var horaF;
-    var minutosF;
-    var segundosF;
-
-    for (var u=0;u<strHrFim.length;u++){
-      horaF=strHrFim[u].split("/");
-      minutosF=strHrFim[u].split("/");
-      segundosF=strHrFim[u].split("/");
-    }
-
-    var dataHoraFim = new Date(anoF, mesF, diaF, horaF, minutosF, segundosF,null);
-  
-    timeDiff = (dataHoraFim) - (dataHoraIni);
-    moment(timeDiff).format(timeFormat) ;
-
-}
