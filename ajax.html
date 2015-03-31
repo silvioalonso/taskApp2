@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Cadastro de tarefas</title>
+
+
+    <script>dojoConfig = {parseOnLoad: true}</script>
+    <script src="../css/dojo/dojo/dojo.js" data-dojo-config="async: true" ></script>
+    <script>require(["dojo/parser","dijit/form/Button"]);</script>
+
+	<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+
+    <script>
+    $(document).ready(function(){
+    	$("#linkA").click(function(){
+    		$.ajax({
+    			url:"http://localhost:8080/gko-taskapp-service/registro/listar"
+    			}
+    		).done(function(data){
+    				console.log(data);
+    		});
+    	});
+
+    });
+    </script>
+
+
+
+</head>
+
+<body>
+
+
+
+<a id="linkA" href="#" >TESTE</a>
+
+       
+</body>
+</html>
