@@ -7,6 +7,7 @@ var gridTempo;
 var emptyStore;
 var updateItem=false;
 var selectedItem;
+var txtNome;
 
 var Tarefas = {
   identificador: "",
@@ -138,7 +139,9 @@ require(["dojo/ready"], function(ready){
           var txtNome = dojo.byId("nome").value;
 
           salvaTarefa(txtId,txtNome);
-          
+          salvar(txtId,txtNome);
+
+          syncTarefas();
           preencheGridTarefas(); 
           limpaCampos();                 
         }
@@ -170,6 +173,20 @@ require(["dojo/ready"], function(ready){
         limpaCampos();            
       }
     }, "btnDelete").startup();
+
+
+   var btnSync = new Button({  
+
+      iconClass:'dijitEditorIcon dijitEditorIconClear', 
+      showLabel: false,          
+        onClick: function(){
+
+          updateItem=false;
+            syncTarefas();                               
+        }
+      }, "btnSync").startup();
+
+
 
     var btnClear = new Button({  
 
@@ -258,4 +275,40 @@ require(["dojo/ready"], function(ready){
 
 
 
+
+function salvar(identificador,nome){
+  $.ajax({
+    type: "POST",
+    url:"http://localhost:8080/gko-taskapp-service/tarefa/salvar",
+    data: {identificador:identificador,nome: nome}
+
+
+  }).error(function(){
+
+          //txtId = dojo.byId("identificador").value;
+          txtNome = dojo.byId("nome").valu.value;
+        
+        salvaTarefa(txtNome);
+
+
+  }).done(function(data){
+      identificador = data.tarefa.identificador;
+
+          //txtId = dojo.byId("identificador").value;
+          txtNome = dojo.byId("nome").value;
+ 
+      salvaTarefa(txtNome);
+      syncTarefas();
+  });
+}
+
+function syncTarefas(){
+  
+  for(var i = 0; i < arrTarefas.length; i++){
+    if(arrTarefas[i].identificador == null){
+      salvar(arrTarefas[i].identificador,arrTarefas[i].nome);
+      arrTarefas.splice(i,1);
+    }
+  }
+}
 
