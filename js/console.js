@@ -104,6 +104,7 @@ require(["dojo/ready"], function(ready){
             var txtId = dojo.byId("identificador").value;
             var txtNome = dojo.byId("nome").value;
 
+
             salvaTarefa(txtId,txtNome);
             salvarTarefaRemoto(txtId,txtNome);
 
@@ -228,7 +229,7 @@ function salvarTarefaRemoto(identificador,nome){
   $.ajax({
     type: "POST",
     url:"http://localhost:8080/gko-taskapp-service/tarefa/salvar",
-    data: {identificador:identificador,nome: nome}
+    data: {identificador:identificador,nome: nome,idUsuario:1,hash:"123"}
 
 
   }).error(function(){
