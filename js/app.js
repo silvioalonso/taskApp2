@@ -42,17 +42,18 @@ function salvaTemposAjax(tarefa, tInicial, tFinal){
 
   }).error(function(){
     salvaTempos(tarefa, tInicial, tFinal);
+    console.log("Não há conexão com a rede. Registro salvo localmente.")
 
   }).done(function(data){
-    if(data.ajaxResult.codigo = 200){
-      id = data.registro.id;
+    if(data.ajaxResult.codigo == 200){
+      id = data.ajaxResult.objeto.id;
       salvaTempos(tarefa, tInicial, tFinal, id);
-      console.log(data.ajaxResult.mensagem);
 
-    }else if(data.ajaxResult.codigo = 501){
+    }else if(data.ajaxResult.codigo == 501){
       salvaTempos(tarefa, tInicial, tFinal);
-      console.log(data.ajaxResult.mensagem);
+
     }
+    console.log(data.ajaxResult.mensagem);
   });
 }
 
@@ -62,6 +63,9 @@ function synchronize(){
     if(arrTempos[i].id == null){
       salvaTemposAjax(arrTempos[i].nome, arrTempos[i].inicio, arrTempos[i].fim);
       arrTempos.splice(i,1);
+      i--;
+    } else if(arrTempos[i].isSync == false){
+      editaTemposAjax(i, arrTempos[i].inicio, arrTempos[i].fim);
     }
   }
 }
@@ -71,20 +75,26 @@ function editaTempos(i, tInicial, tFinal, sync){
   arrTempos[i].fim = tFinal;
   arrTempos[i].isSync = sync;
   localStorage.setItem("tempos", JSON.stringify(arrTempos));
-  console.log(arrTempos);
 }
 
 function editaTemposAjax(i, tInicial, tFinal){
   $.ajax({
     type: "POST",
     url:"http://localhost:8080/gko-taskapp-service/registro/editar",
-    data: {id: arrTempos[i].id, tarefa: arrTempos[i].nome, inicio: tInicial, fim: tFinal}
+    data: {id: arrTempos[i].id, tarefa: arrTempos[i].nome, inicio: tInicial, fim: tFinal, idUsuario: 1, hash: $.md5(senha+arrTempos[i].nome+tInicial+tFinal+1)}
 
   }).error(function(){
     editaTempos(i, tInicial, tFinal, false);
+    console.log("Não há conexão com a rede. Registro salvo localmente.")
 
   }).done(function(data){
-    editaTempos(i, tInicial, tFinal, true);
+    if(data.ajaxResult.codigo == 200){
+      editaTempos(i, tInicial, tFinal, true);
+
+    }else if(data.ajaxResult.codigo == 501){
+      editaTempos(i, tInicial, tFinal, false);     
+    }
+    console.log(data.ajaxResult.mensagem); 
   });
 }
 
@@ -125,6 +135,7 @@ $(document).ready(function(){
 
 
   $("#sync").click(function(){
+    atualizaArray();
     synchronize();
   });
 
