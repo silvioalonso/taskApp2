@@ -285,30 +285,40 @@ function salvar(identificador,nome){
 
   }).error(function(){
 
-          //txtId = dojo.byId("identificador").value;
-          txtNome = dojo.byId("nome").valu.value;
-        
-        salvaTarefa(txtNome);
+          txtId = dojo.byId("identificador").value;
+          txtNome = dojo.byId("nome").value;
 
 
   }).done(function(data){
-      identificador = data.tarefa.identificador;
+    console.log(data);
 
-          //txtId = dojo.byId("identificador").value;
+          txtId = dojo.byId("identificador").value;
           txtNome = dojo.byId("nome").value;
- 
-      salvaTarefa(txtNome);
-      syncTarefas();
+        
+   
   });
 }
 
-function syncTarefas(){
-  
-  for(var i = 0; i < arrTarefas.length; i++){
-    if(arrTarefas[i].identificador == null){
-      salvar(arrTarefas[i].identificador,arrTarefas[i].nome);
-      arrTarefas.splice(i,1);
-    }
-  }
-}
 
+function editarTarefaRemoto(identificador,nome,id){
+  $.ajax({
+    type: "POST",
+    url:"http://localhost:8080/gko-taskapp-service/tarefa/editar",
+    data: {identificador:identificador,nome: nome,id:id}
+
+
+  }).error(function(){
+
+          txtId = dojo.byId("identificador").value;
+          txtNome = dojo.byId("nome").value;
+
+
+  }).done(function(data){
+    console.log(data);
+
+          txtId = dojo.byId("identificador").value;
+          txtNome = dojo.byId("nome").value;
+        
+   
+  });
+}

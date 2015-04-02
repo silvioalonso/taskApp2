@@ -16,70 +16,10 @@ var txtFim;
 var txtTempoGasto;
 
 
-function formataDataHora(){
-
-      //Tratar objeto data hora
-
-  var strIni=eval(localStorage.getItem("tempos"))[0].inicio.split(",")[0];
-    var strHrInicio=eval(localStorage.getItem("tempos"))[0].inicio.split(",")[1];
-
-    var strFim=eval(localStorage.getItem("tempos"))[0].fim.split(",")[0];
-    var strHrFim=eval(localStorage.getItem("tempos"))[0].fim.split(",")[1];
- 
 
 
- 
-    var diaI;
-    var mesI;
-    var anoI;
-
-    for (var d=0;d<strIni.length;d++){
-      diaI=strIni[d].split("/");
-      mesI=strIni[d].split("/");
-      anoI=strIni[d].split("/");
-    }
-
-    var horaI;
-    var minutosI;
-    var segundosI;
-
-    for (var h=0;h<strHrInicio.length;h++){
-      horaI=strHrInicio[h].split("/");
-      minutosI=strHrInicio[h].split("/");
-      segundosI=strHrInicio[h].split("/");
-    }
-
-    var dataHoraIni = new Date(anoI, mesI, diaI, horaI, minutosI, segundosI,null); 
-
-    var diaF;
-    var mesF;
-    var anoF;
-
-    for (var f=0;f<strFim.length;f++){
-      diaF=strFim[f].split("/");
-      mesF=strFim[f].split("/");
-      anoF=strFim[f].split("/");
-    }
-
-    var horaF;
-    var minutosF;
-    var segundosF;
-
-    for (var u=0;u<strHrFim.length;u++){
-      horaF=strHrFim[u].split("/");
-      minutosF=strHrFim[u].split("/");
-      segundosF=strHrFim[u].split("/");
-    }
-
-    var dataHoraFim = new Date(anoF, mesF, diaF, horaF, minutosF, segundosF,null);
-  
-    timeDiff = (dataHoraFim) - (dataHoraIni);
-    moment(timeDiff).format(timeFormat) ;
-
-}
 
 
-formataDataHora();
 
   var tempos = {
     nome:"",
@@ -229,16 +169,12 @@ require(["dojo/ready"], function(ready){
         iconClass:'dijitEditorIcon dijitEditorIconSave', 
         showLabel: false,          
         onClick: function(){
-          
-          //txtId = dojo.byId("identificador").value;
-          txtNome = dojo.byId("nome").value;
-          txtInicio = dojo.byId("inicio").value;
-          txtFim = dojo.byId("fim").value;
-          txtTempoGasto = dojo.byId("tempogasto").value;
-
-         
+                   
           salvaRegistros(txtNome,txtInicio,txtFim,txtTempoGasto);
-           salvar(txtNome,txtInicio,txtFim,txtTempogasto);
+
+          salvaTemposAjax(txtNome, txtInicio, txtFim)
+
+          synchronize();
           
           preencheGridRegistros(); 
           limpaCampos();                 
@@ -279,7 +215,7 @@ require(["dojo/ready"], function(ready){
         onClick: function(){
 
           updateItem=false;
-            syncRegistros();                               
+            synchronize();                               
         }
       }, "btnSync").startup();
 
@@ -309,42 +245,61 @@ function limpaCampos(){
     }
 }
 
-function salvar(identificador,nome,inicio,fim,tempogasto){
-  $.ajax({
-    type: "POST",
-    url:"http://localhost:8080/gko-taskapp-service/registro/salvar",
-    data: {identificador:identificador,nome: nome,inicio:inicio,fim:fim,tempogasto:tempogasto}
+//Tratar objeto data hora
+
+  var strIni=eval(localStorage.getItem("tempos"))[0].inicio.split(",")[0];
+    var strHrInicio=eval(localStorage.getItem("tempos"))[0].inicio.split(",")[1];
+
+    var strFim=eval(localStorage.getItem("tempos"))[0].fim.split(",")[0];
+    var strHrFim=eval(localStorage.getItem("tempos"))[0].fim.split(",")[1];
+ 
 
 
-  }).error(function(){
+ 
+    var diaI;
+    var mesI;
+    var anoI;
 
-          //txtId = dojo.byId("identificador").value;
-          txtNome = dojo.byId("nome").value;
-          txtInicio = dojo.byId("inicio").value;
-          txtFim = dojo.byId("fim").value;
-          txtTempoGasto = dojo.byId("tempogasto").value;
-        
-        salvaRegistros(txtNome, txtInicio, txtFim, txtTempogasto);
-
-  }).done(function(data){
-      identificador = data.tarefa.identificador;
-
-          //txtId = dojo.byId("identificador").value;
-          txtNome = dojo.byId("nome").value;
-          txtInicio = dojo.byId("inicio").value;
-          txtFim = dojo.byId("fim").value;
-          txtTempoGasto = dojo.byId("tempogasto").value;
-
-      salvaRegistros( txtNome, txtInicio, txtFim, txtTempogasto);
-  });
-}
-
-function syncRegistros(){
-  
-  for(var i = 0; i < arrRegistros.length; i++){
-    if(arrRegistros[i].identificador == null){
-      salvar(arrRegistros[i].identificador,arrRegistros[i].nome, arrRegistros[i].inicio, arrRegistros[i].fim,tempogasto);
-      arrRegistros.splice(i,1);
+    for (var d=0;d<strIni.length;d++){
+      diaI=strIni[d].split("/");
+      mesI=strIni[d].split("/");
+      anoI=strIni[d].split("/");
     }
-  }
-}
+
+    var horaI;
+    var minutosI;
+    var segundosI;
+
+    for (var h=0;h<strHrInicio.length;h++){
+      horaI=strHrInicio[h].split("/");
+      minutosI=strHrInicio[h].split("/");
+      segundosI=strHrInicio[h].split("/");
+    }
+
+    var dataHoraIni = new Date(anoI, mesI, diaI, horaI, minutosI, segundosI,null); 
+
+    var diaF;
+    var mesF;
+    var anoF;
+
+    for (var f=0;f<strFim.length;f++){
+      diaF=strFim[f].split("/");
+      mesF=strFim[f].split("/");
+      anoF=strFim[f].split("/");
+    }
+
+    var horaF;
+    var minutosF;
+    var segundosF;
+
+    for (var u=0;u<strHrFim.length;u++){
+      horaF=strHrFim[u].split("/");
+      minutosF=strHrFim[u].split("/");
+      segundosF=strHrFim[u].split("/");
+    }
+
+    var dataHoraFim = new Date(anoF, mesF, diaF, horaF, minutosF, segundosF,null);
+  
+    timeDiff = (dataHoraFim) - (dataHoraIni);
+    moment(timeDiff).format(timeFormat) ;
+
