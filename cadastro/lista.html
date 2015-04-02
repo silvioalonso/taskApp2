@@ -4,11 +4,17 @@
 <meta charset="UTF-8">
 <title>Cadastro de tarefas</title>
 
-    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+
     <script>dojoConfig = {parseOnLoad: true}</script>
     <script src="../css/dojo/dojo/dojo.js" data-dojo-config="async: true" ></script>
+    <script>require(["dojo/parser","dijit/form/Button"]);</script>
+
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+
+
     <link rel="stylesheet" href="../css/dojo/dijit/themes/claro/claro.css"/>
     <script src="../js/moment.js"></script>
+    <script src="../js/APP.js"></script>
     <script src="../js/registro.js"></script>
     
 
@@ -78,7 +84,7 @@
                 </div>
             </div>
 
-        <form  action="#" style="margin:4px">
+        <form  action="#" style="margin:4px" id="frmTarefas">
             <fieldset style="border solid 1px #EDEDD;border-radius: 5px; padding: 5px; min-height:80px;">
                 <legend>Tarefa cadastrada</legend>
 
@@ -136,8 +142,12 @@
                         <button id="btnDelete" type="button">Deletar</button>
                     </div>
 
+                   <div class="item w2" >
+                        <button id="btnClear" type="button">Limpar</button>
+                    </div>
 
 
+  </div>
                 <div>
                 
                 <div class="row"> 
@@ -147,6 +157,11 @@
                 </div>
         </form>
     </div>
+
+
+
+
+  
 
    
 </body>
