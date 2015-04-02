@@ -7,6 +7,8 @@ var gridTempo;
 var emptyStore;
 var updateItem=false;
 var selectedItem;
+
+var txtId ;
 var txtNome;
 
 var Tarefas = {
@@ -14,87 +16,51 @@ var Tarefas = {
   nome:""
 }
 
-var Lista = {
-  data: "",
-  tarefa:"",
-  inicio: "",
-  fim: ""
-}
-
-
 
 function atualizaArray(){
 
-  if (localStorage.getItem("lista") !== null){
-    var tarefas = localStorage.getItem("lista");
-    
+  if (localStorage.getItem("Tarefas") !== null){
+    var tarefas = localStorage.getItem("Tarefas");  
     
     arr = eval(tarefas);
-
+/*
     for (var i = 0; i < arr.length; i++) {
         arr[i].value = select.options[localStorage.getItem('txtTarefa')].selected = true;
     }
-
-    
-  }
+*/  
 
 }
 
-function carregaLista(){
-
-  atualizaArray();
-
 }
 
-function montaLista() {
-
-  atualizaArray();
-  
-  Lista.data = dojo.byId("data").value;
-  Lista.tarefa = dojo.byId("nome").value;
-  Lista.inicio = dojo.byId("inicio").value;
-  Lista.fim = dojo.byId("fim").value;
-
-  var resultado = "<ol>";
-
-    for (i in arr){
-      container = container + "<li>" +"Data :"+ arr[i].data + " - " +"Tarefa :"+ arr[i].tarefa + " - " +"Inicio :"+ arr[i].inicio + " - " +"Fim :"+ arr[i].fim + "</li>";
-    }
-
-    resultado = container + "</ol>";
-
-  el = dojo.byId("resultado");
-  el.innerHTML = resultado;
-  el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
-}
   
 function salvaTarefa(id,nome){   
 
   if (updateItem){
-          
+
     updateItem=false;
           
-      arrTarefas[selectedItem].nome=dojo.byId("nome").value;
+      arrTarefas[selectedItem].nome = dojo.byId("nome").value;
       arrTarefas[selectedItem].identificador=dojo.byId("identificador").value;
 
       localStorage.setItem("Tarefas", JSON.stringify(arrTarefas));                                     
          
   }else{
 
-    if (localStorage.getItem("Tarefas") !== null){
-      arrTarefas=eval(localStorage.getItem("Tarefas"));
+  if (localStorage.getItem("Tarefas") !== null){
+    arrTarefas=eval(localStorage.getItem("Tarefas"));
   }
 
     arrTarefas.push({"identificador":id,"nome":nome});
     localStorage.setItem("Tarefas", JSON.stringify(arrTarefas));     
-
   }
-  preencheGridTarefas();
+
+    preencheGridTarefas();
 }
 
-  function preencheGridTarefas(){
+function preencheGridTarefas(){
 
-    require(['dojo/_base/lang', 'dojo/data/ItemFileWriteStore', 'dojo/dom', 'dojo/domReady!'],
+  require(['dojo/_base/lang', 'dojo/data/ItemFileWriteStore', 'dojo/dom', 'dojo/domReady!'],
     function(lang, ItemFileWriteStore, dom){
 
       if (localStorage.getItem("Tarefas") !== null){
@@ -102,7 +68,7 @@ function salvaTarefa(id,nome){
         var tarefas = localStorage.getItem("Tarefas");
         arrTarefas = eval(tarefas);
 
-          if (arrTarefas!=null){
+        if (arrTarefas!=null){
 
             var data = {
               id: "id",
@@ -133,19 +99,18 @@ require(["dojo/ready"], function(ready){
 
         iconClass:'dijitEditorIcon dijitEditorIconSave', 
         showLabel: false,          
-        onClick: function(){
+          onClick: function(){
                    
-          var txtId = dojo.byId("identificador").value;
-          var txtNome = dojo.byId("nome").value;
+            var txtId = dojo.byId("identificador").value;
+            var txtNome = dojo.byId("nome").value;
 
-          salvaTarefa(txtId,txtNome);
-          salvar(txtId,txtNome);
+            salvaTarefa(txtId,txtNome);
+            salvarTarefaRemoto(txtId,txtNome);
 
-          syncTarefas();
-          preencheGridTarefas(); 
-          limpaCampos();                 
-        }
-      }, "btnSave").startup();
+            preencheGridTarefas(); 
+            limpaCampos();                 
+      }
+    }, "btnSave").startup();
 
       var btnDelete = new Button({  
 
@@ -173,20 +138,6 @@ require(["dojo/ready"], function(ready){
         limpaCampos();            
       }
     }, "btnDelete").startup();
-
-
-   var btnSync = new Button({  
-
-      iconClass:'dijitEditorIcon dijitEditorIconClear', 
-      showLabel: false,          
-        onClick: function(){
-
-          updateItem=false;
-            syncTarefas();                               
-        }
-      }, "btnSync").startup();
-
-
 
     var btnClear = new Button({  
 
@@ -273,10 +224,7 @@ require(["dojo/ready"], function(ready){
   });
 });
 
-
-
-
-function salvar(identificador,nome){
+function salvarTarefaRemoto(identificador,nome){
   $.ajax({
     type: "POST",
     url:"http://localhost:8080/gko-taskapp-service/tarefa/salvar",
@@ -309,8 +257,8 @@ function editarTarefaRemoto(identificador,nome,id){
 
   }).error(function(){
 
-          txtId = dojo.byId("identificador").value;
-          txtNome = dojo.byId("nome").value;
+         txtId = dojo.byId("identificador").value;
+         txtNome = dojo.byId("nome").value;
 
 
   }).done(function(data){
