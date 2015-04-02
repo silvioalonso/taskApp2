@@ -1,6 +1,8 @@
 var btnChange = true;
 var arrTarefas = [];
 var arrTempos = [];
+var senha = "@123";
+
 
 function testesMD5(){
   console.log($.md5("aiosj"));
@@ -36,16 +38,21 @@ function salvaTemposAjax(tarefa, tInicial, tFinal){
   $.ajax({
     type: "POST",
     url:"http://localhost:8080/gko-taskapp-service/registro/salvar",
-    data: {tarefa: tarefa, inicio: tInicial, fim: tFinal, idUsuario: 1, hash: "123"}
+    data: {tarefa: tarefa, inicio: tInicial, fim: tFinal, idUsuario: 1, hash: $.md5(senha+tarefa+tInicial+tFinal+1)}
 
   }).error(function(){
     salvaTempos(tarefa, tInicial, tFinal);
 
   }).done(function(data){
-    //console.log(data);
-    //id = data.registro.id;
-    //salvaTempos(tarefa, tInicial, tFinal, id);
-    console.log(data);
+    if(data.ajaxResult.codigo = 200){
+      id = data.registro.id;
+      salvaTempos(tarefa, tInicial, tFinal, id);
+      console.log(data.ajaxResult.mensagem);
+
+    }else if(data.ajaxResult.codigo = 501){
+      salvaTempos(tarefa, tInicial, tFinal);
+      console.log(data.ajaxResult.mensagem);
+    }
   });
 }
 
