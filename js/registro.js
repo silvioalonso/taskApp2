@@ -20,7 +20,7 @@ var idUsuario;
     nome:"",
     inicio: "",
     fim: "",
-    tempogasto: timeDiff
+    tempogasto: ""
   }
 
 
@@ -201,7 +201,8 @@ require(["dojo/ready"], function(ready){
         iconClass:'dijitEditorIcon dijitEditorIconSave', 
         showLabel: false,          
         onClick: function(){
-          
+          txtTempoGasto = timeDiff;
+
           txtNome = dojo.byId("nome").value;
           txtInicio = dojo.byId("inicio").value;
           txtFim =dojo.byId("fim").value;
