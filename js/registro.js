@@ -13,6 +13,8 @@ var txtInicio;
 var txtFim;
 var txtTempoGasto;
 
+var senha = "@123";
+var idUsuario;
 
   var tempos = {
     nome:"",
@@ -22,7 +24,7 @@ var txtTempoGasto;
   }
 
 
-function salvaRegistros(nome,inicio,fim,tempogasto){   
+function salvaTempos(nome,inicio,fim,tempogasto){   
 
   if (updateItem){
           
@@ -49,9 +51,6 @@ function salvaRegistros(nome,inicio,fim,tempogasto){
   preencheGridRegistros();
 }
 
-
-
-
 function salvaTemposAjax(nome, inicio, fim){
   $.ajax({
     type: "POST",
@@ -59,12 +58,18 @@ function salvaTemposAjax(nome, inicio, fim){
     data: {nome: nome, inicio: inicio, fim: fim, idUsuario: 1, hash: $.md5(senha+nome+inicio+fim+1)}
 
   }).error(function(){
-    salvaTempos(txtNome, txtInicio, txtFim);
+          
+          txtNome = dojo.byId("nome").value;
+          txtInicio = dojo.byId("inicio").value;
+          txtFim =dojo.byId("fim").value;
+          txtTempoGasto =dojo.byId("tempogasto").value;
+
+
+    salvaTempos(txtNome, txtInicio, txtFim,txtTempoGasto);
     console.log("Não há conexão com a rede. Registro salvo localmente.")
 
   }).done(function(data){
-
-         txtId = dojo.byId("id").value;
+         
           txtNome = dojo.byId("nome").value;
           txtInicio = dojo.byId("inicio").value;
           txtFim =dojo.byId("fim").value;
@@ -73,10 +78,10 @@ function salvaTemposAjax(nome, inicio, fim){
 
     if(data.ajaxResult.codigo == 200){
       id = data.ajaxResult.objeto.id;
-      salvaTempos(txtNome, txtInicio, txtFim, id);
+      salvaTempos(txtNome, txtInicio, txtFim,txtTempoGasto, id);
 
     }else if(data.ajaxResult.codigo == 501){
-      salvaTempos(txtNome, txtInicio, txtFim);
+      salvaTempos(txtNome, txtInicio, txtFim,txtTempoGasto);
 
     }
     console.log(data.ajaxResult.mensagem);
@@ -97,6 +102,7 @@ function salvaTemposAjax(nome, inicio, fim){
 
             var data = {
               id: "id",
+              tempogasto:tempogasto,
 
               items: []
             };
@@ -195,8 +201,14 @@ require(["dojo/ready"], function(ready){
         iconClass:'dijitEditorIcon dijitEditorIconSave', 
         showLabel: false,          
         onClick: function(){
+          
+          txtNome = dojo.byId("nome").value;
+          txtInicio = dojo.byId("inicio").value;
+          txtFim =dojo.byId("fim").value;
+          txtTempoGasto =dojo.byId("tempogasto").value;
+
                    
-          salvaRegistros(txtNome,txtInicio,txtFim,txtTempoGasto);
+          salvaTempos(txtNome,txtInicio,txtFim,txtTempoGasto);
 
           salvaTemposAjax(txtNome, txtInicio, txtFim);
 
