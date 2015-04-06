@@ -1,6 +1,5 @@
 var btnDelete = true;
 var arrRegistros = [];
-var arrTempos;
 var store;
 var grid
 var emptyStore;
@@ -8,17 +7,11 @@ var updateItem=false;
 var selectedItem;
 var timeFormat = 'DD/MM/YYYY, H:mm:ss';
 var timeDiff=new Date();
-
 var txtId ;
 var txtNome;
 var txtInicio;
 var txtFim;
 var txtTempoGasto;
-
-
-
-
-
 
 
   var tempos = {
@@ -49,13 +42,38 @@ function salvaRegistros(nome,inicio,fim,tempogasto){
       arrRegistros=eval(localStorage.getItem("tempos"));
   }
 
-    arrRegistros.push({"nome":nome,"inicio":inicio,"fim":fim,"tempogasto":tempos.tempogasto});
+    arrRegistros.push({"nome":nome,"inicio":inicio,"fim":fim,"tempogasto":tempogasto});
     localStorage.setItem("tempos", JSON.stringify(arrRegistros));     
 
   }
   preencheGridRegistros();
 }
 
+
+
+
+function salvaTemposAjax(nome, inicio, fim){
+  $.ajax({
+    type: "POST",
+    url:"http://localhost:8080/gko-taskapp-service/tarefa/salvar",
+    data: {nome: nome, inicio: inicio, fim: fim, idUsuario: 1, hash: $.md5(senha+nome+inicio+fim+1)}
+
+  }).error(function(){
+    salvaTempos(nome, inicio, fim);
+    console.log("Não há conexão com a rede. Registro salvo localmente.")
+
+  }).done(function(data){
+    if(data.ajaxResult.codigo == 200){
+      id = data.ajaxResult.objeto.id;
+      salvaTempos(nome, inicio, fim, id);
+
+    }else if(data.ajaxResult.codigo == 501){
+      salvaTempos(nome, inicio, fim);
+
+    }
+    console.log(data.ajaxResult.mensagem);
+  });
+}
 
   function preencheGridRegistros(){
 
@@ -77,10 +95,10 @@ function salvaRegistros(nome,inicio,fim,tempogasto){
                 
             store = new ItemFileWriteStore({data: data});
 
-            arrTempos=tempogasto;           
+                     
                   
             for (var i = 0; i < arrRegistros.length; i++) {
-                var itemTarefa =  { id: i, nome: arrRegistros[i].nome,inicio:arrRegistros[i].inicio,fim:arrRegistros[i].fim,tempogasto:moment(arrTempos).format(timeFormat).split(",")[1]}; 
+                var itemTarefa =  { id: i, nome: arrRegistros[i].nome,inicio:arrRegistros[i].inicio,fim:arrRegistros[i].fim,tempogasto:moment(arrRegistros[i].tempogasto).format(timeFormat).split(",")[1]}; 
                 store.newItem(itemTarefa);                     
             }
            
@@ -101,7 +119,7 @@ require(["dojo/ready"], function(ready){
     /*set up data store*/
     var data = {
       id: "id",
-      tempogasto:"tempogasto",
+      
       items: []
     };
         
@@ -172,7 +190,7 @@ require(["dojo/ready"], function(ready){
                    
           salvaRegistros(txtNome,txtInicio,txtFim,txtTempoGasto);
 
-          salvaTemposAjax(txtNome, txtInicio, txtFim)
+          salvaTemposAjax(txtNome, txtInicio, txtFim);
 
           synchronize();
           

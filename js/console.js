@@ -7,6 +7,8 @@ var gridTempo;
 var emptyStore;
 var updateItem=false;
 var selectedItem;
+var senha = "@123";
+var idUsuario;
 
 var txtId ;
 var txtNome;
@@ -229,7 +231,7 @@ function salvarTarefaRemoto(identificador,nome){
   $.ajax({
     type: "POST",
     url:"http://localhost:8080/gko-taskapp-service/tarefa/salvar",
-    data: {identificador:identificador,nome: nome,idUsuario:1,hash:"123"}
+    data: {identificador:identificador,nome: nome,idUsuario:1, hash: $.md5(senha+identificador+nome+idUsuario+1)}
 
 
   }).error(function(){
@@ -241,33 +243,45 @@ function salvarTarefaRemoto(identificador,nome){
   }).done(function(data){
     console.log(data);
 
+
           txtId = dojo.byId("identificador").value;
           txtNome = dojo.byId("nome").value;
+
+
+      if(data.ajaxResult.codigo = 200){
+        id = data.Tarefa.id;
+        salvaTarefa(txtId, txtNome, id);
+        console.log(data.ajaxResult.mensagem);
+
+      }else if(data.ajaxResult.codigo = 501){
+        salvaTarefa(txtId, txtNome);
+        console.log(data.ajaxResult.mensagem);
+      }
+
         
    
   });
 }
 
 
-function editarTarefaRemoto(identificador,nome,id){
+function editaTarefas(i, txtId, txtNome, sync){
+  arrTarefas[i].identificador = txtId;
+  arrTarefas[i].nome = txtNome;
+  arrTarefas[i].isSync = sync;
+  localStorage.setItem("Tarefas", JSON.stringify(arrTarefas));
+  console.log(arrTarefas);
+}
+
+function editaTemposAjax(i, txtId, txtNome){
   $.ajax({
     type: "POST",
     url:"http://localhost:8080/gko-taskapp-service/tarefa/editar",
     data: {identificador:identificador,nome: nome,id:id}
 
-
   }).error(function(){
-
-         txtId = dojo.byId("identificador").value;
-         txtNome = dojo.byId("nome").value;
-
+    editaTarefas(i, txtId, txtNome, false);
 
   }).done(function(data){
-    console.log(data);
-
-          txtId = dojo.byId("identificador").value;
-          txtNome = dojo.byId("nome").value;
-        
-   
+    editaTarefas(i, txtId, txtNome, true);
   });
 }
