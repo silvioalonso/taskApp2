@@ -59,16 +59,24 @@ function salvaTemposAjax(nome, inicio, fim){
     data: {nome: nome, inicio: inicio, fim: fim, idUsuario: 1, hash: $.md5(senha+nome+inicio+fim+1)}
 
   }).error(function(){
-    salvaTempos(nome, inicio, fim);
+    salvaTempos(txtNome, txtInicio, txtFim);
     console.log("Não há conexão com a rede. Registro salvo localmente.")
 
   }).done(function(data){
+
+         txtId = dojo.byId("id").value;
+          txtNome = dojo.byId("nome").value;
+          txtInicio = dojo.byId("inicio").value;
+          txtFim =dojo.byId("fim").value;
+          txtTempoGasto =dojo.byId("tempogasto").value;
+
+
     if(data.ajaxResult.codigo == 200){
       id = data.ajaxResult.objeto.id;
-      salvaTempos(nome, inicio, fim, id);
+      salvaTempos(txtNome, txtInicio, txtFim, id);
 
     }else if(data.ajaxResult.codigo == 501){
-      salvaTempos(nome, inicio, fim);
+      salvaTempos(txtNome, txtInicio, txtFim);
 
     }
     console.log(data.ajaxResult.mensagem);
