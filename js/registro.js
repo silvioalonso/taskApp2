@@ -31,7 +31,6 @@ function salvaTempos(nome,inicio,fim,tempogasto){
     updateItem=false;
           
     arrRegistros[selectedItem].nome=dojo.byId("nome").innerText;
-    //arrRegistros[selectedItem].identificador=dojo.byId("identificador").value;
     arrRegistros[selectedItem].inicio=dojo.byId("inicio").value;
     arrRegistros[selectedItem].fim=dojo.byId("fim").value;
     arrRegistros[selectedItem].tempogasto=dojo.byId("tempogasto").value;
@@ -102,8 +101,7 @@ function salvaTemposAjax(nome, inicio, fim){
 
             var data = {
               id: "id",
-              tempogasto:tempogasto,
-
+              
               items: []
             };
                 
@@ -112,7 +110,8 @@ function salvaTemposAjax(nome, inicio, fim){
                      
                   
             for (var i = 0; i < arrRegistros.length; i++) {
-                var itemTarefa =  { id: i, nome: arrRegistros[i].nome,inicio:arrRegistros[i].inicio,fim:arrRegistros[i].fim,tempogasto:moment(arrRegistros[i].tempogasto).format(timeFormat).split(",")[1]}; 
+                var tg =arrRegistros[i].tempogasto;
+                var itemTarefa =  { id: i, nome: arrRegistros[i].nome,inicio:arrRegistros[i].inicio,fim:arrRegistros[i].fim,tempogasto:moment(tg).format(timeFormat).split(",")[1]}; 
                 store.newItem(itemTarefa);                     
             }
            
@@ -127,6 +126,7 @@ function editaTempos(i, nome, inicio, fim, tempogasto){
   arrRegistros[i].inicio = inicio;
   arrRegistros[i].fim = fim;
   arrRegistros[i].tempogasto = tempogasto;
+
   localStorage.setItem("tempos", JSON.stringify(arrRegistros));
 }
 
