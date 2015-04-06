@@ -20,7 +20,7 @@ var idUsuario;
     nome:"",
     inicio: "",
     fim: "",
-    tempogasto: ""
+    tempogasto: timeDiff
   }
 
 
@@ -122,6 +122,36 @@ function salvaTemposAjax(nome, inicio, fim){
     }); 
   }
 
+function editaTempos(i, nome, inicio, fim, tempogasto){
+  arrRegistros[i].nome = nome;
+  arrRegistros[i].inicio = inicio;
+  arrRegistros[i].fim = fim;
+  arrRegistros[i].tempogasto = tempogasto;
+  localStorage.setItem("tempos", JSON.stringify(arrRegistros));
+}
+
+function editaTemposAjax(i, nome,inicio, fim,tempogasto){
+  $.ajax({
+    type: "POST",
+    url:"http://localhost:8080/gko-taskapp-service/tarefa/editar",
+    data: {id: arrTempos[i].id, nome: arrTempos[i].nome, inicio: inicio, fim: fim, idUsuario: 1, hash: $.md5(senha+arrTempos[i].nome+inicio+fim+1)}
+
+  }).error(function(){
+    editaTempos(i, nome,inicio, fim, false);
+    console.log("Não há conexão com a rede. Registro salvo localmente.")
+
+  }).done(function(data){
+    if(data.ajaxResult.codigo == 200){
+      editaTempos(i, nome, inicio, fim, true);
+
+    }else if(data.ajaxResult.codigo == 501){
+      editaTempos(i, nome,inicio,fim, false);     
+    }
+    console.log(data.ajaxResult.mensagem); 
+  });
+}
+
+
 
 require(["dojo/ready"], function(ready){
   ready(function(){   
@@ -201,7 +231,7 @@ require(["dojo/ready"], function(ready){
         iconClass:'dijitEditorIcon dijitEditorIconSave', 
         showLabel: false,          
         onClick: function(){
-          txtTempoGasto = timeDiff;
+          
 
           txtNome = dojo.byId("nome").value;
           txtInicio = dojo.byId("inicio").value;
