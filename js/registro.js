@@ -1,4 +1,5 @@
 var btnDelete = true;
+var tempogasto=[];
 var arrRegistros = [];
 var store;
 var grid
@@ -16,17 +17,70 @@ var txtTempoGasto;
 var senha = "@123";
 var idUsuario;
 
+//Tratar objeto data hora
+
+  var strIni=eval(localStorage.getItem("tempos"))[0].inicio.split(",")[0];
+    var strHrInicio=eval(localStorage.getItem("tempos"))[0].inicio.split(",")[1];
+
+    var strFim=eval(localStorage.getItem("tempos"))[0].fim.split(",")[0];
+    var strHrFim=eval(localStorage.getItem("tempos"))[0].fim.split(",")[1];
+ 
 
 
+ 
+    var diaI;
+    var mesI;
+    var anoI;
+
+    for (var d=0;d<strIni.length;d++){
+      diaI=strIni[d].split("/");
+      mesI=strIni[d].split("/");
+      anoI=strIni[d].split("/");
+    }
+
+    var horaI;
+    var minutosI;
+    var segundosI;
+
+    for (var h=0;h<strHrInicio.length;h++){
+      horaI=strHrInicio[h].split("/");
+      minutosI=strHrInicio[h].split("/");
+      segundosI=strHrInicio[h].split("/");
+    }
+
+    var dataHoraIni = new Date(anoI, mesI, diaI, horaI, minutosI, segundosI,null); 
+
+    var diaF;
+    var mesF;
+    var anoF;
+
+    for (var f=0;f<strFim.length;f++){
+      diaF=strFim[f].split("/");
+      mesF=strFim[f].split("/");
+      anoF=strFim[f].split("/");
+    }
+
+    var horaF;
+    var minutosF;
+    var segundosF;
+
+    for (var u=0;u<strHrFim.length;u++){
+      horaF=strHrFim[u].split("/");
+      minutosF=strHrFim[u].split("/");
+      segundosF=strHrFim[u].split("/");
+    }
+
+    var dataHoraFim = new Date(anoF, mesF, diaF, horaF, minutosF, segundosF,null);
+  
+    timeDiff = (dataHoraFim) - (dataHoraIni);
+    moment(timeDiff).format(timeFormat) ;
 
 
-
-
+var tempogasto=timeDiff;
   var tempos = {
     nome:"",
     inicio: "",
-    fim: "",
-    tempogasto: timeDiff
+    fim: ""
   }
 
 
@@ -54,6 +108,7 @@ function salvaTempos(nome,inicio,fim,tempogasto){
 
   }
   preencheGridRegistros();
+  limpaCampos();
 }
 
 function salvaTemposAjax(tnome, tinicio, tfim){
@@ -62,19 +117,16 @@ function salvaTemposAjax(tnome, tinicio, tfim){
     url:"http://localhost:8080/gko-taskapp-service/tarefa/salvar",
     data: {nome: tnome, inicio: tinicio, fim: tfim, idUsuario: 1, hash: $.md5(senha+tnome+tinicio+tfim+1)}
 
-
   }).error(function(){
           
-          txtTempoGasto =dojo.byId("tempogasto").value;
+    txtTempoGasto =dojo.byId("tempogasto").value;
 
-
-    salvaTempos(tnome, tinicio, tfim,txtTempoGasto);
+    salvaTempos(tnome, ttnicio, tfim,txtTempoGasto);
     console.log("Não há conexão com a rede. Registro salvo localmente.")
 
   }).done(function(data){
          
-          txtTempoGasto =dojo.byId("tempogasto").value;
-
+    txtTempoGasto =dojo.byId("tempogasto").value;
 
     if(data.ajaxResult.codigo == 200){
       id = data.ajaxResult.objeto.id;
@@ -86,6 +138,7 @@ function salvaTemposAjax(tnome, tinicio, tfim){
     }
     console.log(data.ajaxResult.mensagem);
   });
+  limpaCampos();
 }
 
   function preencheGridRegistros(){
@@ -111,8 +164,8 @@ function salvaTemposAjax(tnome, tinicio, tfim){
                      
                   
             for (var i = 0; i < arrRegistros.length; i++) {
-                var tg =arrRegistros[i].tempogasto;
-                var itemTarefa =  { id: i, nome: arrRegistros[i].nome,inicio:arrRegistros[i].inicio,fim:arrRegistros[i].fim,tempogasto:moment(tg).format(timeFormat).split(",")[1]}; 
+                
+                var itemTarefa =  { id: i, nome: arrRegistros[i].nome,inicio:arrRegistros[i].inicio,fim:arrRegistros[i].fim,tempogasto:moment(tempogasto).format(timeFormat).split(",")[1]}; 
                 store.newItem(itemTarefa);                     
             }
            
@@ -198,17 +251,11 @@ require(["dojo/ready"], function(ready){
       grid.on("RowClick", function(evt){
         var idx = evt.rowIndex;
         rowData = grid.getItem(idx);     
-      
        
         dojo.byId("nome").innerText = rowData.nome[0];
-        //dojo.byId("inicio").innerText = rowData.inicio[0];
-        //dojo.byId("fim").innerText = rowData.fim[0];
-        //dojo.byId("tempogasto").innerText = rowData.tempogasto[0];
-
-         //dojo.byId("nome").value = rowData.nome[0];
-         dojo.byId("inicio").value=rowData.inicio[0];
-         dojo.byId("fim").value=rowData.fim[0];
-         dojo.byId("tempogasto").value=rowData.tempogasto[0];
+        dojo.byId("inicio").value=rowData.inicio[0];
+        dojo.byId("fim").value=rowData.fim[0];
+        dojo.byId("tempogasto").value=rowData.tempogasto[0];
 
         updateItem=true;
         selectedItem=idx;
@@ -226,7 +273,7 @@ require(["dojo/ready"], function(ready){
   ready(function(){
   
     require(["dijit/form/Button", "dojo/dom", "dojo/domReady!"], function(Button, dom){
-   
+     
      var btnSave = new Button({  
 
         iconClass:'dijitEditorIcon dijitEditorIconSave', 
@@ -234,7 +281,7 @@ require(["dojo/ready"], function(ready){
         onClick: function(){
           
 
-          txtNome = dojo.byId("nome").value;
+          txtNome = dojo.byId("nome").innerText;
           txtInicio = dojo.byId("inicio").value;
           txtFim =dojo.byId("fim").value;
           txtTempoGasto =dojo.byId("tempogasto").value;
@@ -313,6 +360,5 @@ function limpaCampos(){
     for (var i = 0; i < inputs.length; i++) {
       inputs[i].value = '';  
     }
+    txtNome=dojo.byId("nome").innerText;
 }
-
-
