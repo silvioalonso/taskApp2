@@ -135,6 +135,10 @@ $(document).ready(function(){
     $(".ini , .fim , #time").hide();
   });
 
+  $("#sel1").click(function(){
+    atualizaArray();
+  })
+
 
   $("#sync").click(function(){
     atualizaArray();
