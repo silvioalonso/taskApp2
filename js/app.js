@@ -15,7 +15,7 @@ function atualizaArray(){
     arrTarefas = eval(tarefas);
   }
 
-  if (localStorage.getItem("tempos") !== null && localStorage.getItem("tempos") !== ""){
+  if (localStorage.getItem("tempos") !== null){
     var tempos = localStorage.getItem("tempos");
     arrTempos = eval(tempos);
   }
@@ -110,6 +110,7 @@ $(document).ready(function(){
       $(this).toggleClass("btn-success").toggleClass("btn-danger").text("Finalizar tarefa");
       $("#sel1").prop('disabled', true);
       $(".ini , #time").show();
+      atualizaArray();
       chronometer.start();
       btnChange=false;
       $("#reset").trigger( "click" );
@@ -119,6 +120,7 @@ $(document).ready(function(){
       $(this).removeClass("btn-success btn-danger").prop("disabled",true).text("Selecione uma nova tarefa");
       $("#sel1").prop('disabled', false);
       $(".fim").show();
+      atualizaArray();
       chronometer.stop();
       btnChange=true;
       //salvaTempos($("#sel1 option:selected").text(), $("#startTime").text(), $("#stopTime").text());
