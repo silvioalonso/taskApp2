@@ -8,6 +8,7 @@ var updateItem=false;
 var selectedItem;
 var timeFormat = 'DD/MM/YYYY, H:mm:ss';
 var timeDiff=new Date();
+
 var txtId ;
 var txtNome;
 var txtInicio;
@@ -16,7 +17,6 @@ var txtTempoGasto;
 
 var senha = "@123";
 var idUsuario;
-
 
   var tempos = {
     nome:"",
@@ -147,8 +147,6 @@ function editaTemposAjax(i, nome,inicio, fim,tempogasto){
     console.log(data.ajaxResult.mensagem); 
   });
 }
-
-
 
 require(["dojo/ready"], function(ready){
   ready(function(){   
@@ -306,8 +304,6 @@ function limpaCampos(){
     dojo.byId("tempogasto").innerText='';
     txtNome=dojo.byId("nome").innerText;
 }
-
-
 
 //Tratar objeto data hora
 
