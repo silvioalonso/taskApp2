@@ -22,6 +22,7 @@ function atualizaArray(){
 }
 
 function carregaComboBox(arr){
+  $("#sel1").clear();
   for (var i = 0; i < arr.length; i++){
     $("#sel1").append("<option>" + arr[i].nome + "</option>");
   }
@@ -134,11 +135,6 @@ $(document).ready(function(){
     $("#controle").addClass("btn-success").prop("disabled",false).text("Iniciar tarefa");
     $(".ini , .fim , #time").hide();
   });
-
-  $("#sel1").click(function(){
-    atualizaArray();
-  })
-
 
   $("#sync").click(function(){
     atualizaArray();
