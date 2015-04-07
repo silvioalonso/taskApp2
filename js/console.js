@@ -56,8 +56,8 @@ function salvaTarefa(id,nome){
     arrTarefas.push({"identificador":id,"nome":nome});
     localStorage.setItem("Tarefas", JSON.stringify(arrTarefas));     
   }
-
-    preencheGridTarefas();
+ limpaCampos();
+ preencheGridTarefas();
 }
 
 function preencheGridTarefas(){
@@ -110,8 +110,9 @@ require(["dojo/ready"], function(ready){
             salvaTarefa(txtId,txtNome);
             salvarTarefaRemoto(txtId,txtNome);
 
+            limpaCampos();
             preencheGridTarefas(); 
-            limpaCampos();                 
+                             
       }
     }, "btnSave").startup();
 
@@ -247,7 +248,6 @@ function salvarTarefaRemoto(identificador,nome){
           txtId = dojo.byId("identificador").value;
           txtNome = dojo.byId("nome").value;
 
-
       if(data.ajaxResult.codigo = 200){
         id = data.Tarefa.id;
         salvaTarefa(txtId, txtNome, id);
@@ -257,10 +257,9 @@ function salvarTarefaRemoto(identificador,nome){
         salvaTarefa(txtId, txtNome);
         console.log(data.ajaxResult.mensagem);
       }
-
-        
    
   });
+   limpaCampos();
 }
 
 
