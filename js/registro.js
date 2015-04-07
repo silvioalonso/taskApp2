@@ -303,6 +303,7 @@ function limpaCampos(){
     for (var i = 0; i < inputs.length; i++) {
       inputs[i].value = '';  
     }
+    dojo.byId("tempogasto").innerText='';
     txtNome=dojo.byId("nome").innerText;
 }
 
