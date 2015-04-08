@@ -110,7 +110,7 @@ require(["dojo/ready"], function(ready){
             salvaTarefa(txtId,txtNome);
             salvarTarefaRemoto(txtId,txtNome);
 
-            limpaCampos();
+            
             preencheGridTarefas(); 
                              
       }
@@ -227,34 +227,27 @@ require(["dojo/ready"], function(ready){
 
   });
 });
-
+idUsuario=1;
 function salvarTarefaRemoto(identificador,nome){
   $.ajax({
     type: "POST",
     url:"http://localhost:8080/gko-taskapp-service/tarefa/salvar",
+
     data: {identificador:identificador,nome: nome,idUsuario:1, hash: $.md5(senha+identificador+nome+idUsuario+1)}
 
 
   }).error(function(){
 
-          txtId = dojo.byId("identificador").value;
-          txtNome = dojo.byId("nome").value;
-
-
   }).done(function(data){
     console.log(data);
 
-
-          txtId = dojo.byId("identificador").value;
-          txtNome = dojo.byId("nome").value;
-
       if(data.ajaxResult.codigo = 200){
         id = data.Tarefa.id;
-        salvaTarefa(txtId, txtNome, id);
+        salvaTarefa(identificador, nome, id);
         console.log(data.ajaxResult.mensagem);
 
       }else if(data.ajaxResult.codigo = 501){
-        salvaTarefa(txtId, txtNome);
+        salvaTarefa(identificador, nome);
         console.log(data.ajaxResult.mensagem);
       }
    
