@@ -9,6 +9,7 @@ var updateItem=false;
 var selectedItem;
 var senha = "@123";
 var idUsuario;
+var id;
 
 var txtId ;
 var txtNome;
@@ -227,13 +228,17 @@ require(["dojo/ready"], function(ready){
 
   });
 });
+
 idUsuario=1;
+id=1;
+
 function salvarTarefaRemoto(identificador,nome){
   $.ajax({
     type: "POST",
     url:"http://localhost:8080/gko-taskapp-service/tarefa/salvar",
 
-    data: {identificador:identificador,nome: nome,idUsuario:1, hash: $.md5(senha+identificador+nome+idUsuario+1)}
+
+    data: {identificador:identificador,nome: nome,idUsuario:1, hash: $.md5(senha+identificador+nome)}
 
 
   }).error(function(){
