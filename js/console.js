@@ -9,7 +9,7 @@ var updateItem=false;
 var selectedItem;
 var senha = "@123";
 var idUsuario;
-var id;
+var idAuth=1;
 
 var txtId ;
 var txtNome;
@@ -247,8 +247,8 @@ function salvarTarefaRemoto(identificador,nome){
     console.log(data);
 
       if(data.ajaxResult.codigo = 200){
-        id = data.Tarefa.id;
-        salvaTarefa(identificador, nome, id);
+        id = data.Tarefa.idAuth;
+        salvaTarefa(identificador, nome, idAuth);
         console.log(data.ajaxResult.mensagem);
 
       }else if(data.ajaxResult.codigo = 501){
