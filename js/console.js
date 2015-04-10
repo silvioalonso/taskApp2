@@ -8,7 +8,7 @@ var emptyStore;
 var updateItem=false;
 var selectedItem;
 var senha = "@123";
-var idUsuario;
+var idUsuario=1;
 var idAuth=1;
 
 var txtId ;
