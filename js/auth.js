@@ -1,31 +1,31 @@
 var btnChange = true;
-var arrTarefas = [];
+var arrAuth = [];
 var arr = [];
 var store;
 var grid;
-var gridTempo;
+var gridAuth=1;
 var emptyStore;
 var updateItem=false;
 var selectedItem;
-var senha = "@123";
-var idUsuario=1;
-var idAuth=1;
+var token ;
 
-var txtId ;
-var txtNome;
+var idTarefa;
 
-var Tarefas = {
-  identificador: "",
-  nome:""
+var txtEmail ;
+var txtToken;
+
+var Auth = {
+  email: "",
+  token:""
 }
 
 
 function atualizaArray(){
 
-  if (localStorage.getItem("Tarefas") !== null){
-    var tarefas = localStorage.getItem("Tarefas");  
+  if (localStorage.getItem("Auth") !== null){
+    var auth = localStorage.getItem("Auth");  
     
-    arr = eval(tarefas);
+    arr = eval(auth);
 /*
     for (var i = 0; i < arr.length; i++) {
         arr[i].value = select.options[localStorage.getItem('txtTarefa')].selected = true;
@@ -37,41 +37,41 @@ function atualizaArray(){
 }
 
   
-function salvaTarefa(id,nome){   
+function salvaAuth(email,token){   
 
   if (updateItem){
 
     updateItem=false;
           
-      arrTarefas[selectedItem].nome = dojo.byId("nome").value;
-      arrTarefas[selectedItem].identificador=dojo.byId("identificador").value;
+      arrAuth[selectedItem].email = dojo.byId("email").value;
+      arrAuth[selectedItem].token=dojo.byId("token").value;
 
-      localStorage.setItem("Tarefas", JSON.stringify(arrTarefas));                                     
+      localStorage.setItem("Auth", JSON.stringify(arrAuth));                                     
          
   }else{
 
-  if (localStorage.getItem("Tarefas") !== null){
-    arrTarefas=eval(localStorage.getItem("Tarefas"));
+  if (localStorage.getItem("Auth") !== null){
+    arrAuth=eval(localStorage.getItem("Auth"));
   }
 
-    arrTarefas.push({"identificador":id,"nome":nome});
-    localStorage.setItem("Tarefas", JSON.stringify(arrTarefas));     
+    arrAuth.push({"email":email,"token":token});
+    localStorage.setItem("Auth", JSON.stringify(arrAuth));     
   }
  limpaCampos();
- preencheGridTarefas();
+ preencheGridAuth();
 }
 
-function preencheGridTarefas(){
+function preencheGridAuth(){
 
   require(['dojo/_base/lang', 'dojo/data/ItemFileWriteStore', 'dojo/dom', 'dojo/domReady!'],
     function(lang, ItemFileWriteStore, dom){
 
-      if (localStorage.getItem("Tarefas") !== null){
+      if (localStorage.getItem("Auth") !== null){
 
-        var tarefas = localStorage.getItem("Tarefas");
-        arrTarefas = eval(tarefas);
+        var auth = localStorage.getItem("Auth");
+        arrAuth = eval(auth);
 
-        if (arrTarefas!=null){
+        if (arrAuth!=null){
 
             var data = {
               id: "id",
@@ -80,9 +80,9 @@ function preencheGridTarefas(){
                 
             store = new ItemFileWriteStore({data: data});            
 
-            for (var i = 0; i < arrTarefas.length; i++) {              
-              var itemTarefa =  { id: i, nome: arrTarefas[i].nome,identificador:arrTarefas[i].identificador}; 
-              store.newItem(itemTarefa);            
+            for (var i = 0; i < arrAuth.length; i++) {              
+              var itemAuth =  { id: i, email: arrAuth[i].email,token:arrAuth[i].token}; 
+              store.newItem(itemAuth);            
             }
 
             grid.setStore(store);
@@ -104,15 +104,15 @@ require(["dojo/ready"], function(ready){
         showLabel: false,          
           onClick: function(){
                    
-            var txtId = dojo.byId("identificador").value;
-            var txtNome = dojo.byId("nome").value;
+            txtEmail = dojo.byId("email").value;
+            txtToken = dojo.byId("token").value;
 
 
-            salvaTarefa(txtId,txtNome);
-            salvarTarefaRemoto(txtId,txtNome);
+            salvaAuth(txtEmail,txtToken);
+            salvarAuthRemoto(txtEmail,txtToken);
 
             
-            preencheGridTarefas(); 
+            preencheGridAuth(); 
                              
       }
     }, "btnSave").startup();
@@ -135,7 +135,7 @@ require(["dojo/ready"], function(ready){
               store.deleteItem(selectedItem);
 
               arrTarefas.splice(selectedItem, 1);
-              localStorage.setItem("Tarefas", JSON.stringify(arrTarefas));                                   
+              localStorage.setItem("Auth", JSON.stringify(arrAuth));                                   
 
             } 
           });
@@ -193,8 +193,8 @@ require(["dojo/ready"], function(ready){
 
     /*set up layout*/
     var layout = [[
-      {'name': 'Identificador', 'field': 'identificador', 'width': '50%'},
-      {'name': 'Nome', 'field': 'nome', 'width': '50%'}
+      {'name': 'Email', 'field': 'email', 'width': '50%'},
+      {'name': 'Token', 'field': 'token', 'width': '50%'}
     ]];
 
     /*create a new grid*/
@@ -209,14 +209,14 @@ require(["dojo/ready"], function(ready){
 
       /*Call startup() to render the grid*/
       grid.startup();
-      preencheGridTarefas();
+      preencheGridAuth();
 
       // assuming our grid is stored in a variable called "myGrid":
       grid.on("RowClick", function(evt){
         var idx = evt.rowIndex;
         rowData = grid.getItem(idx);
-        dojo.byId("nome").value=rowData.nome[0];
-        dojo.byId("identificador").value=rowData.identificador[0];
+        dojo.byId("email").value=rowData.email[0];
+        dojo.byId("token").value=rowData.token[0];
 
         updateItem=true;
         selectedItem=idx;
@@ -231,13 +231,13 @@ require(["dojo/ready"], function(ready){
 idUsuario=1;
 id=1;
 
-function salvarTarefaRemoto(identificador,nome){
+function salvarAuthRemoto(email,token){
   $.ajax({
     type: "POST",
-    url:"http://localhost:8080/gko-taskapp-service/tarefa/salvar",
+    url:"http://localhost:8080/gko-taskapp-service/auth/salvar",
 
 
-    data: {identificador:identificador,nome: nome,idUsuario:1, hash: $.md5(senha+identificador+nome)}
+    data: {email:emaiol,token: token,idUsuario:1, hash: $.md5(token+email+idUsuario)}
 
 
   }).error(function(){
@@ -245,12 +245,12 @@ function salvarTarefaRemoto(identificador,nome){
   }).done(function(data){
 
       if(data.ajaxResult.codigo = 200){
-        id = data.Tarefa.id;
-        salvaTarefa(identificador, nome, idAuth);
+        id = data.Auth.id;
+        salvaAuth(email, token, id);
         console.log(data.ajaxResult.mensagem);
 
       }else if(data.ajaxResult.codigo = 501){
-        salvaTarefa(identificador, nome);
+        salvaAuth(email, token);
         console.log(data.ajaxResult.mensagem);
       }
    
@@ -259,24 +259,24 @@ function salvarTarefaRemoto(identificador,nome){
 }
 
 
-function editaTarefas(i, txtId, txtNome, sync){
-  arrTarefas[i].identificador = txtId;
-  arrTarefas[i].nome = txtNome;
-  arrTarefas[i].isSync = sync;
-  localStorage.setItem("Tarefas", JSON.stringify(arrTarefas));
+function editaAuth(i, txtEmail, txtToken, sync){
+  arrAuth[i].email = txtEmail;
+  arrAuth[i].nome = txtToken;
+  arrAuth[i].isSync = sync;
+  localStorage.setItem("Auth", JSON.stringify(arrAuth));
   console.log(arrTarefas);
 }
 
-function editaTemposAjax(i, txtId, txtNome){
+function editaAuthAjax(i, txtEmail, txtToken){
   $.ajax({
     type: "POST",
-    url:"http://localhost:8080/gko-taskapp-service/tarefa/editar",
-    data: {identificador:identificador,nome: nome,id:id}
+    url:"http://localhost:8080/gko-taskapp-service/auth/editar",
+    data: {email:email,token: token,id:id}
 
   }).error(function(){
-    editaTarefas(i, txtId, txtNome, false);
+    editaAuth(i, txtEmail, txtToken, false);
 
   }).done(function(data){
-    editaTarefas(i, txtId, txtNome, true);
+    editaAuth(i, txtEmail, txtToken, true);
   });
 }

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Cadastro de tarefas</title>
+ <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script>dojoConfig = {parseOnLoad: true}</script>
+    <script src="../css/dojo/dojo/dojo.js" data-dojo-config="async: true" ></script>
+    <link rel="stylesheet" href="../css/dojo/dijit/themes/claro/claro.css"/>
+    <script src="../js/auth.js"></script>
+    <script src="../js/md5.js"></script>
+    <script>require(["dojo/parser",  "dijit/form/Button"]);</script>
+
+        <script>
+        require(["dojo/parser", "dijit/MenuBar", "dijit/MenuBarItem", "dijit/PopupMenuBarItem",
+            "dijit/DropDownMenu", "dijit/MenuItem"]);
+    </script>
+
+
+    <style>
+        @import "../css/dojo/dojox/grid/resources/claroGrid.css";
+
+        /*Grid needs an explicit height by default*/
+        #gridDiv {
+            height: 20em;
+            width:550px;
+        }
+        
+        #container { font-size: 12px; width: 560px; font-family:Arial;border:solid 1px #CCCCCC; margin:0 auto;paddin:20px; }
+
+        .row { float: left; margin: 5px 0; width: 100%; }
+        .w2 { width: 7%; }
+        .w10 { width: 10%; }
+        .w15 { width: 15%; }
+        .w20 { width: 20%; }
+        .w25 { width: 25%; }
+        .w30 { width: 30%; }
+        .w35 { width: 35%; }
+        .w40 { width: 40%; }
+        .w50 { width: 50%; }
+        .w60 { width: 60%; }
+        .w70 { width: 70%; }
+        .w80 { width: 80%; }
+        .w90 { width: 90%; }
+        .w100 { width: 100%; }
+
+        .item { box-sizing: border-box; float: left; padding-right:5px; }
+      
+</style>
+
+</head>
+
+<body class="claro">
+
+   
+
+    <div id="container">
+
+           <div class="row">
+                <div class="item w100" style="float:left;padding-left:5px">
+
+                    <div data-dojo-type="dijit/MenuBar" id="navMenu">
+                        <div data-dojo-type="dijit/PopupMenuBarItem">
+                            <span>Menu</span>
+                                <div data-dojo-type="dijit/DropDownMenu" id="fileMenu">
+                                    <div data-dojo-type="dijit/MenuItem" data-dojo-props="onClick:function(){window.location.href='index.html'}">Tarefa</div>
+                                    <div data-dojo-type="dijit/MenuItem" data-dojo-props="onClick:function(){window.location.href='lista.html'}">Registros</div>
+                                    <div data-dojo-type="dijit/MenuItem" data-dojo-props="onClick:function(){window.location.href='../app.html'}">APP</div>
+                                </div>
+                        </div>
+    
+  
+                <div data-dojo-type="dijit/MenuBarItem">
+                    Sair
+                </div>
+            </div>
+
+                </div>
+            </div>
+
+        <form  action="#" style="margin:4px">
+            <fieldset style="border solid 1px #EDEDD;border-radius: 5px; padding: 5px; min-height:150px;">
+                <legend>Cadastro de Usuário</legend>
+
+                <div class="row">
+                    <div class="item w20">
+                        <label for="email">Email:</label><br>
+                        <input type="text" name="email" value="" 
+                            data-dojo-type="dijit/form/TextBox" style="100px"
+                            data-dojo-props="trim:true, propercase:true" id="email" />       
+                    </div>
+                </div>
+
+                <div class="row">    
+                    <div class="item w100">
+                         <label for="token">Token:</label><br>
+                        <input type="text" name="token" value=""
+                            data-dojo-type="dijit/form/TextBox"
+                            data-dojo-props="trim:true, propercase:true" id="token" />       
+                    </div>
+
+                </div>
+
+            </fieldset>
+
+                <div class="row" style="float:left">    
+                    <div class="item w2">
+                        <button id="btnSave" type="button">Salvar</button>
+                    </div>
+
+                    <div class="item w2" >
+                        <button id="btnDelete" type="button">Deletar</button>
+                    </div>
+
+                   <div class="item w2" >
+                        <button id="btnClear" type="button">Limpar</button>
+                    </div>
+     
+            </div>
+
+
+            <div id="gridDiv"></div>
+
+        </form>
+    </div>
+
+    
+</body>
+</html>
