@@ -22,7 +22,6 @@ function atualizaArray(){
 }
 
 function carregaComboBox(arr){
-  $("#sel1").clear();
   for (var i = 0; i < arr.length; i++){
     $("#sel1").append("<option>" + arr[i].nome + "</option>");
   }
