@@ -8,6 +8,8 @@ var emptyStore;
 var updateItem=false;
 var selectedItem;
 var token ;
+var idAuth=1;
+
 
 var idTarefa;
 
@@ -134,7 +136,7 @@ require(["dojo/ready"], function(ready){
             
               store.deleteItem(selectedItem);
 
-              arrTarefas.splice(selectedItem, 1);
+              arrAuth.splice(selectedItem, 1);
               localStorage.setItem("Auth", JSON.stringify(arrAuth));                                   
 
             } 
@@ -237,7 +239,7 @@ function salvarAuthRemoto(email,token){
     url:"http://localhost:8080/gko-taskapp-service/auth/salvar",
 
 
-    data: {email:emaiol,token: token,idUsuario:1, hash: $.md5(token+email+idUsuario)}
+    data: {email:email,token: token,idUsuario:1, hash: $.md5(email+token)}
 
 
   }).error(function(){
@@ -264,7 +266,7 @@ function editaAuth(i, txtEmail, txtToken, sync){
   arrAuth[i].nome = txtToken;
   arrAuth[i].isSync = sync;
   localStorage.setItem("Auth", JSON.stringify(arrAuth));
-  console.log(arrTarefas);
+  console.log(arrAuth);
 }
 
 function editaAuthAjax(i, txtEmail, txtToken){
