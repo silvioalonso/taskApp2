@@ -37,6 +37,7 @@ function atualizaArray(){
 }
 
   
+
 function salvaTarefa(id,nome){   
 
   if (updateItem){
@@ -51,6 +52,11 @@ function salvaTarefa(id,nome){
   }else{
 
   if (localStorage.getItem("Tarefas") !== null){
+
+ id = id || null;
+  var obj = {id: id, nome: nome};
+  arrTarefas.push(obj);
+
     arrTarefas=eval(localStorage.getItem("Tarefas"));
   }
 
@@ -245,8 +251,9 @@ function salvarTarefaRemoto(identificador,nome){
   }).done(function(data){
 
       if(data.ajaxResult.codigo = 200){
-        id = data.Tarefa.id;
-        salvaTarefa(identificador, nome, idAuth);
+        id = data.Tarefa.idTarefa;
+        salvaTarefa(identificador, nome, id);
+         synchronize();
         console.log(data.ajaxResult.mensagem);
 
       }else if(data.ajaxResult.codigo = 501){
@@ -256,6 +263,19 @@ function salvarTarefaRemoto(identificador,nome){
    
   });
    limpaCampos();
+}
+
+function synchronize(){
+  //atualizaArray();
+  for(var i = 0; i < arrTarefas.length; i++){
+    if(arrTarefas[i].idTarefa == null){
+      salvarTarefaRemoto(arrTarefas[i].identificador, arrTarefas[i].nome);
+      arrTarefas.splice(i,1);
+      i--;
+    } else if(arrTarefas[i].isSync == false){
+      editaTemposAjax(i, arrTarefas[i].identificador, arrTarefas[i].fim);
+    }
+  }
 }
 
 
@@ -270,7 +290,7 @@ function editaTarefas(i, txtId, txtNome, sync){
 function editaTemposAjax(i, txtId, txtNome){
   $.ajax({
     type: "POST",
-    url:"http://localhost:8080/gko-taskapp-service/tarefa/editar",
+    url:"http://localhost:8080/gko-taskapp-service/tarefa/salvar",
     data: {identificador:identificador,nome: nome,id:id}
 
   }).error(function(){

@@ -63,7 +63,7 @@ function salvaTemposAjax(tnome, tinicio, tfim){
           
     txtTempoGasto =dojo.byId("tempogasto").value;
 
-    salvaTempos(tnome, ttnicio, tfim,txtTempoGasto);
+    salvaTempos(tnome, tinicio, tfim,txtTempoGasto);
     console.log("Não há conexão com a rede. Registro salvo localmente.")
 
   }).done(function(data){

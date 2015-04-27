@@ -8,7 +8,7 @@ var emptyStore;
 var updateItem=false;
 var selectedItem;
 var token ;
-var idAuth=1;
+var idAuth;
 
 
 var idTarefa;
@@ -109,10 +109,8 @@ require(["dojo/ready"], function(ready){
             txtEmail = dojo.byId("email").value;
             txtToken = dojo.byId("token").value;
 
-
             salvaAuth(txtEmail,txtToken);
             salvarAuthRemoto(txtEmail,txtToken);
-
             
             preencheGridAuth(); 
                              
@@ -247,8 +245,8 @@ function salvarAuthRemoto(email,token){
   }).done(function(data){
 
       if(data.ajaxResult.codigo = 200){
-        id = data.Auth.id;
-        salvaAuth(email, token, id);
+        idAuth = data.Auth.idAuth;
+        salvaAuth(email, token, idAuth);
         console.log(data.ajaxResult.mensagem);
 
       }else if(data.ajaxResult.codigo = 501){
